@@ -49,19 +49,6 @@ function App() {
 							Bubble Chart
 						</MenuItem>
 					</SubMenu>
-					<SubMenu label='Wallets' icon={<WalletRoundedIcon />}>
-						<MenuItem icon={<AccountBalanceRoundedIcon />}>
-							Current Wallet
-						</MenuItem>
-						<MenuItem icon={<SavingsRoundedIcon />}>
-							Savings Wallet
-						</MenuItem>
-					</SubMenu>
-					<MenuItem
-						component={<Link to='transactions' className='link' />}
-						icon={<MonetizationOnRoundedIcon />}>
-						Transactions
-					</MenuItem>
 					<SubMenu
 						label='Settings'
 						icon={<SettingsApplicationsRoundedIcon />}>
