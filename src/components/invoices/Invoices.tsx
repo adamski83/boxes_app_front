@@ -1,12 +1,11 @@
-import React from "react";
 import "./invoices.css";
 
 const Invoices = () => {
-	return (
-		<div className='invoices__header'>
-			<h2>Invoices</h2>
-		</div>
-	);
+  return (
+    <div className="invoices__header">
+      <h2>Invoices</h2>
+    </div>
+  );
 };
 
 export default Invoices;

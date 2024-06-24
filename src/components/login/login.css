@@ -1,0 +1,28 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 350px;
+  height: 650px;
+  border: 1px black solid;
+  border-radius: 45px;
+  background-color: rgb(238, 246, 253);
+}
+.login__popup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  color: red;
+  gap: 15px;
+}
+.login__button {
+  width: 80%;
+}
+.login__input {
+  width: 80%;
+}
+.login__error {
+  font-size: 16px;
+  color: red;
+}
