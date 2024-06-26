@@ -1,6 +1,13 @@
-const HOME = "/";
-const DASHBOARD = "/dashboard";
-const INVOICES = "/invoices";
-const LOGIN = "/login";
+type paths = {
+  home: string;
+  dashboard: string;
+  invoices: string;
+  login: string;
+};
 
-export { HOME, DASHBOARD, INVOICES, LOGIN };
+export const PATHS: paths = {
+  home: "/",
+  dashboard: "/dashboard",
+  invoices: "/invoices",
+  login: "/login",
+};

@@ -3,26 +3,27 @@
   flex-direction: column;
   justify-content: center;
   width: 350px;
-  height: 650px;
-  border: 1px black solid;
-  border-radius: 45px;
-  background-color: rgb(238, 246, 253);
+  height: 75%;
+  border: 0.1rem black solid;
+  border-radius: 4.5rem;
+  background-color: #eef6fd;
 }
 .login__popup {
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
-  color: red;
-  gap: 15px;
+  color: #ff0000;
+  gap: 20px;
 }
 .login__button {
   width: 80%;
+  height: 3.8rem;
 }
 .login__input {
   width: 80%;
 }
 .login__error {
   font-size: 16px;
-  color: red;
+  color: #ff0000;
 }

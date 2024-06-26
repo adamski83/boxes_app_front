@@ -4,6 +4,7 @@ import { Box, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import { Error } from "../error/Error";
 
 type FormFields = {
   name: string;
@@ -45,9 +46,7 @@ export const Login = () => {
             placeholder="🙋  Type your username"
             className="login__input"
           />
-          {errors.name && (
-            <span className="login__error">{errors.name.message}</span>
-          )}
+          {errors.name && <Error Children={errors.name.message} />}
           <TextField
             {...register("password", {
               required: "password is required",
@@ -61,9 +60,7 @@ export const Login = () => {
             type="password"
             className="login__input"
           />
-          {errors.password && (
-            <span className="login__error">{errors.password.message}</span>
-          )}
+          {errors.password && <Error Children={errors.password.message} />}
           <Button variant="contained" className="login__button" type="submit">
             Login
           </Button>

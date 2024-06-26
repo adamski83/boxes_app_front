@@ -6,9 +6,10 @@ import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplica
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import { Link } from "react-router-dom";
-import { DASHBOARD, INVOICES } from "src/urls/urls";
+import { PATHS } from "src/urls/urls";
 
 export const SidebarMenu = () => {
+  const { dashboard, invoices, login } = PATHS;
   return (
     <Sidebar>
       <Menu>
@@ -20,13 +21,13 @@ export const SidebarMenu = () => {
           <h2>Sacs Box</h2>
         </MenuItem>
         <MenuItem
-          component={<Link to={DASHBOARD} className="link" />}
+          component={<Link to={dashboard} className="link" />}
           icon={<GridViewRoundedIcon />}
         >
           Dashboard
         </MenuItem>
         <MenuItem
-          component={<Link to={INVOICES} className="link" />}
+          component={<Link to={invoices} className="link" />}
           icon={<ReceiptRoundedIcon />}
         >
           Invoices
@@ -36,7 +37,7 @@ export const SidebarMenu = () => {
         </SubMenu>
         <MenuItem
           icon={<LogoutRoundedIcon />}
-          component={<Link to={"/logout"} className="link" />}
+          component={<Link to={login} className="link" />}
         >
           Logout
         </MenuItem>
