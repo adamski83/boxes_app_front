@@ -1,9 +1,9 @@
-import { Children } from "react";
+import { ReactNode } from "react";
 
 type Props = {
-  Children: string | undefined;
+  children?: ReactNode;
 };
 
-export const Error: React.FC<Props> = ({ Children }: Props) => {
-  return <span className="login__error">{Children}</span>;
+export const Error: React.FC<Props> = ({ children }: Props) => {
+  return <span className="login__error">{children}</span>;
 };
