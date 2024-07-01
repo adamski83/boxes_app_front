@@ -1,81 +1,36 @@
-import './App.css';
-import { Sidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
-import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
-import GridViewRoundedIcon from '@mui/icons-material/GridViewRounded';
-import ReceiptRoundedIcon from '@mui/icons-material/ReceiptRounded';
-import BarChartRoundedIcon from '@mui/icons-material/BarChartRounded';
-import TimelineRoundedIcon from '@mui/icons-material/TimelineRounded';
-import BubbleChartRoundedIcon from '@mui/icons-material/BubbleChartRounded';
-import WalletRoundedIcon from '@mui/icons-material/WalletRounded';
-import AccountBalanceRoundedIcon from '@mui/icons-material/AccountBalanceRounded';
-import SavingsRoundedIcon from '@mui/icons-material/SavingsRounded';
-import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
-import SettingsApplicationsRoundedIcon from '@mui/icons-material/SettingsApplicationsRounded';
-import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
-import ShieldRoundedIcon from '@mui/icons-material/ShieldRounded';
-import NotificationsRoundedIcon from '@mui/icons-material/NotificationsRounded';
-import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
-import { Link, Route, Routes } from 'react-router-dom';
-import Home from './components/Home';
-import Dashboard from './components/Dashboard';
-import Transactions from './components/Transactions';
+import "./App.css";
+import { SidebarMenu } from "./components/sidebar/SidebarMenu";
+import { Route, Routes } from "react-router-dom";
+import Home from "./components/home/Home";
+import Dashboard from "./components/dashboard/Dashboard";
+import Invoices from "./components/invoices/Invoices";
+import { PATHS } from "./urls/urls";
+import { Login } from "./components/login/Login";
+import { useState } from "react";
 
 function App() {
-	return (
-		<div style={{ display: 'flex', height: '100vh' }}>
-			<Sidebar className='app'>
-				<Menu>
-					<MenuItem
-						component={<Link to='/' className='link' />}
-						className='menu1'
-						icon={<MenuRoundedIcon />}>
-						<h2>QUICKPAY</h2>
-					</MenuItem>
-					<MenuItem
-						component={<Link to='dashboard' className='link' />}
-						icon={<GridViewRoundedIcon />}>
-						Dashboard
-					</MenuItem>
-					<MenuItem icon={<ReceiptRoundedIcon />}>
-						{' '}
-						Invoices{' '}
-					</MenuItem>
-					<SubMenu label='Charts' icon={<BarChartRoundedIcon />}>
-						<MenuItem icon={<TimelineRoundedIcon />}>
-							{' '}
-							Timeline Chart{' '}
-						</MenuItem>
-						<MenuItem icon={<BubbleChartRoundedIcon />}>
-							Bubble Chart
-						</MenuItem>
-					</SubMenu>
-					<SubMenu
-						label='Settings'
-						icon={<SettingsApplicationsRoundedIcon />}>
-						<MenuItem icon={<AccountCircleRoundedIcon />}>
-							{' '}
-							Account{' '}
-						</MenuItem>
-						<MenuItem icon={<ShieldRoundedIcon />}>
-							{' '}
-							Privacy{' '}
-						</MenuItem>
-						<MenuItem icon={<NotificationsRoundedIcon />}>
-							Notifications
-						</MenuItem>
-					</SubMenu>
-					<MenuItem icon={<LogoutRoundedIcon />}> Logout </MenuItem>
-				</Menu>
-			</Sidebar>
-			<section>
-				<Routes>
-					<Route path='/' element={<Home />} />
-					<Route path='dashboard' element={<Dashboard />} />
-					<Route path='transactions' element={<Transactions />} />
-				</Routes>
-			</section>
-		</div>
-	);
+  //todo // state jest tylko po to aby przetestować ekran login
+  const [state, setState] = useState(false);
+  const { home, dashboard, invoices, login } = PATHS;
+  return (
+    <div className="app">
+      {state ? (
+        <>
+          <SidebarMenu />
+          <section className="section">
+            <Routes>
+              <Route path={home} element={<Home />} />
+              <Route path={dashboard} element={<Dashboard />} />
+              <Route path={invoices} element={<Invoices />} />
+              <Route path={login} element={<Login />} />
+            </Routes>
+          </section>
+        </>
+      ) : (
+        <Login state={state} />
+      )}
+    </div>
+  );
 }
 
 export default App;
