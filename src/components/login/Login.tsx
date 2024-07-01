@@ -31,7 +31,7 @@ export const Login = () => {
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Box className="login__popup">
           <Paper />
-          <Typography variant="h3" color="#e7900c" mb={20}>
+          <Typography variant="h4" color="#e7900c" mb={20}>
             Login
           </Typography>
           <TextField
@@ -46,7 +46,7 @@ export const Login = () => {
             placeholder="🙋  Type your username"
             className="login__input"
           />
-          {errors.name && <Error Children={errors.name.message} />}
+          {errors.name && <Error>{errors.name.message}</Error>}
           <TextField
             {...register("password", {
               required: "password is required",
@@ -60,8 +60,13 @@ export const Login = () => {
             type="password"
             className="login__input"
           />
-          {errors.password && <Error Children={errors.password.message} />}
-          <Button variant="contained" className="login__button" type="submit">
+          {errors.password && <Error>{errors.password.message}</Error>}
+          <Button
+            variant="contained"
+            className="login__button"
+            type="submit"
+            sx={{ fontSize: 14 }}
+          >
             Login
           </Button>
         </Box>
