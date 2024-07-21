@@ -1,4 +1,5 @@
 import "./login.css";
+import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Box, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
@@ -17,8 +18,13 @@ export const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
+
+  const onSubmit: SubmitHandler<FormFields> = async (data) => {
     console.log(data);
+    await axios.post("http://localhost:5000/user/register", {
+      username: data.name,
+      password: data.password,
+    });
   };
 
   return (
