@@ -1,6 +1,12 @@
-.dashboard__header {
-	display: flex;
-	width: 100%;
-	justify-content: center;
-	align-items: center;
+.dashboard__wraper {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 10px;
+  gap: 10px;
+}
+
+.dashboard__content {
+  border: 2px solid red;
+  padding: 5px;
 }

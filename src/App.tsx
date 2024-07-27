@@ -10,7 +10,7 @@ import { useState } from "react";
 
 function App() {
   //todo // state jest tylko po to aby przetestować ekran login
-  const [state, setState] = useState(false);
+  const [state, setState] = useState(true);
   const { home, dashboard, invoices, login } = PATHS;
   return (
     <div className="app">

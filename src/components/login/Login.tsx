@@ -1,10 +1,13 @@
 import "./login.css";
+import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Box, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { Error } from "../error/Error";
+import { useMutation } from "@tanstack/react-query";
+import toast, { Toaster } from "react-hot-toast";
 
 type FormFields = {
   name: string;
@@ -17,8 +20,28 @@ export const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
-  const onSubmit: SubmitHandler<FormFields> = (data) => {
-    console.log(data);
+
+  const mutation = useMutation({
+    mutationFn: (data: FormFields) =>
+      axios.post("http://localhost:5000/user/register", {
+        username: data.name,
+        password: data.password,
+      }),
+    onSuccess: () => {
+      console.log("Rejestracja zakończona sukcesem");
+      toast("Dodano nowego użykownika");
+    },
+    onError: (error) => {
+      console.error("Błąd podczas rejestracji:", error);
+    },
+  });
+
+  const onSubmit: SubmitHandler<FormFields> = (
+    data,
+    e: React.BaseSyntheticEvent,
+  ) => {
+    mutation.mutate(data);
+    e.target.reset();
   };
 
   return (
@@ -28,6 +51,7 @@ export const Login = () => {
       justifyContent="center"
       height="100%"
     >
+      <Toaster />
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Box className="login__popup">
           <Paper />
