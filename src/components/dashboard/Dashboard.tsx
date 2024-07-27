@@ -1,21 +1,29 @@
 import "./dashboard.css";
 import Card from "../card/Card";
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
+import axios from "axios";
 
 const Dashboard = () => {
-  const [data, setData] = useState([]);
+  const { data, error, isLoading } = useQuery({
+    queryKey: ["todo"],
+    queryFn: () =>
+      axios.get(`http://localhost:5000/api/box/search`).then((res) => res),
+  });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const url = `http://localhost:5000/api/box/search`;
-      const data = await fetch(url);
-      const res = await data.json();
-      console.log(res);
-      setData(res);
-    };
-    fetchData();
-  }, []);
-  return <Card data={data} />;
+  if (error) {
+    return <div>There was an ERROR</div>;
+  }
+  if (isLoading) {
+    return (
+      <Box sx={{ display: "flex" }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
+
+  return <Card data={data?.data} />;
 };
 
 export default Dashboard;

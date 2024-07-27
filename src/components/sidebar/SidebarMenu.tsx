@@ -11,7 +11,7 @@ import { PATHS } from "src/urls/urls";
 export const SidebarMenu = () => {
   const { dashboard, invoices, login } = PATHS;
   return (
-    <Sidebar>
+    <Sidebar rootStyles={{ width: "340px", minHeight: "100vh" }}>
       <Menu>
         <MenuItem
           component={<Link to="/" className="link" />}
