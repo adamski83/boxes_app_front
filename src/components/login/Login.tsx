@@ -8,10 +8,30 @@ import TextField from "@mui/material/TextField";
 import { Error } from "../error/Error";
 import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
+import { registerUserApi } from "src/api/apiClient";
 
-type FormFields = {
-  name: string;
+export type FormFields = {
+  username: string;
   password: string;
+};
+
+const useRegisterUser = () => {
+  const { mutate: registerUser } = useMutation({
+    mutationFn: (data: FormFields) =>
+      registerUserApi({
+        username: data.username,
+        password: data.password,
+      }),
+    onSuccess: () => {
+      console.log("Rejestracja zakończona sukcesem");
+      toast("Dodano nowego użytkownika");
+    },
+    onError: (error) => {
+      console.error("Błąd podczas rejestracji:", error);
+    },
+  });
+
+  return registerUser;
 };
 
 export const Login = () => {
@@ -21,27 +41,13 @@ export const Login = () => {
     formState: { errors },
   } = useForm<FormFields>();
 
-  const mutation = useMutation({
-    mutationFn: (data: FormFields) =>
-      axios.post("http://localhost:5000/user/register", {
-        username: data.name,
-        password: data.password,
-      }),
-    onSuccess: () => {
-      console.log("Rejestracja zakończona sukcesem");
-      toast("Dodano nowego użykownika");
-    },
-    onError: (error) => {
-      console.error("Błąd podczas rejestracji:", error);
-    },
-  });
+  const registerUser = useRegisterUser();
 
   const onSubmit: SubmitHandler<FormFields> = (
     data,
     e?: React.BaseSyntheticEvent,
   ) => {
-    mutation.mutate(data);
-
+    registerUser(data);
     e?.target.reset();
   };
 
@@ -60,7 +66,7 @@ export const Login = () => {
             Login
           </Typography>
           <TextField
-            {...register("name", {
+            {...register("username", {
               required: "name is required",
               minLength: {
                 value: 6,
@@ -71,7 +77,7 @@ export const Login = () => {
             placeholder="🙋  Type your username"
             className="login__input"
           />
-          {errors.name && <Error>{errors.name.message}</Error>}
+          {errors.username && <Error>{errors.username.message}</Error>}
           <TextField
             {...register("password", {
               required: "password is required",
