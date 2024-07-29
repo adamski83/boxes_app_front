@@ -38,10 +38,11 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<FormFields> = (
     data,
-    e: React.BaseSyntheticEvent,
+    e?: React.BaseSyntheticEvent,
   ) => {
     mutation.mutate(data);
-    e.target.reset();
+
+    e?.target.reset();
   };
 
   return (
