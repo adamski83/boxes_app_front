@@ -3,7 +3,7 @@ import Card from "../card/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
-import { useBoxes } from "src/api/queries";
+import { useBoxes } from "src/services/getAllBoxes";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();

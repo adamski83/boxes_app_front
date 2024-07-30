@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { Error } from "../error/Error";
 import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
-import { registerUserApi } from "src/api/queries";
+import { registerUserApi } from "src/services/registerUserApi";
 
 export type FormFields = {
   username: string;
