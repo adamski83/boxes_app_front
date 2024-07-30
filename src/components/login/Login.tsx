@@ -1,5 +1,4 @@
 import "./login.css";
-import axios from "axios";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Box, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
@@ -8,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { Error } from "../error/Error";
 import { useMutation } from "@tanstack/react-query";
 import toast, { Toaster } from "react-hot-toast";
-import { registerUserApi } from "src/api/apiClient";
+import { registerUserApi } from "src/api/queries";
 
 export type FormFields = {
   username: string;

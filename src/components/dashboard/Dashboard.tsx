@@ -7,8 +7,6 @@ import { useBoxes } from "src/api/queries";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
-  {
-  }
   if (error) {
     return <div>There was an ERROR</div>;
   }
