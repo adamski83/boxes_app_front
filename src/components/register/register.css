@@ -6,9 +6,9 @@
   height: 75vh;
   border: 0.1rem black solid;
   border-radius: 4.5rem;
-  background-color: #78fbff;
+  background-color: #eef6fd;
 }
-.login__popup {
+.register__popup {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -16,16 +16,16 @@
   color: var(--warn);
   gap: 20px;
 }
-.login__button {
+.register__button {
   width: 80%;
   height: 3.8rem;
   font-size: 1.4rem;
 }
-.login__input {
+.register__input {
   width: 80%;
   font-size: 1.4rem;
 }
-.login__error {
+.register__error {
   font-size: 1rem;
   color: var(--warn);
 }

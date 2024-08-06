@@ -1,47 +1,64 @@
 import "./login.css";
-import axios from "axios";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Typography } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { Error } from "../error/Error";
-import { useMutation } from "@tanstack/react-query";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
+import { useCookies } from "react-cookie";
+import { Error } from "../error/Error";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { FormFields } from "../register/Register";
+import { useMutation } from "@tanstack/react-query";
+import { loginUserApi } from "src/services/loginUserApi";
+import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
-type FormFields = {
-  name: string;
-  password: string;
-};
+interface ErrorResponse {
+  response?: {
+    data: {
+      type: string;
+    };
+  };
+}
 
 export const Login = () => {
+  const [_, setCookie] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
 
-  const mutation = useMutation({
-    mutationFn: (data: FormFields) =>
-      axios.post("http://localhost:5000/user/register", {
-        username: data.name,
-        password: data.password,
-      }),
-    onSuccess: () => {
-      console.log("Rejestracja zakończona sukcesem");
-      toast("Dodano nowego użykownika");
+  const { mutate: loginUser } = useMutation({
+    mutationFn: loginUserApi,
+    onSuccess: (data) => {
+      console.log("Logowanie zakończone sukcesem");
+      setCookie("access_token", data.token, {
+        path: "/",
+        maxAge: 3600,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      localStorage.setItem("userID", data.userID);
+      toast("Zalogowano użytkownika");
+      navigate("/dashboard");
     },
-    onError: (error) => {
-      console.error("Błąd podczas rejestracji:", error);
+    onError: (error: AxiosError<ErrorResponse>): void => {
+      let errorMessage: string = "";
+      switch (error) {
+        case error.response?.data?.type:
+          errorMessage = error.response?.data?.type;
+          break;
+        default:
+          errorMessage = "Błąd logowania. Spróbuj ponownie.";
+          break;
+      }
+      console.error("Błąd podczas logowania:", error);
+      toast.error(error.response?.data.type);
     },
   });
 
-  const onSubmit: SubmitHandler<FormFields> = (
-    data,
-    e?: React.BaseSyntheticEvent,
-  ) => {
-    mutation.mutate(data);
-
+  const onSubmit: SubmitHandler<FormFields> = (data, e) => {
+    loginUser(data);
     e?.target.reset();
   };
 
@@ -60,7 +77,7 @@ export const Login = () => {
             Login
           </Typography>
           <TextField
-            {...register("name", {
+            {...register("username", {
               required: "name is required",
               minLength: {
                 value: 6,
@@ -71,7 +88,7 @@ export const Login = () => {
             placeholder="🙋  Type your username"
             className="login__input"
           />
-          {errors.name && <Error>{errors.name.message}</Error>}
+          {errors.username && <Error>{errors.username.message}</Error>}
           <TextField
             {...register("password", {
               required: "password is required",
