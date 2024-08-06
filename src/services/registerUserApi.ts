@@ -1,4 +1,4 @@
-import { FormFields } from "src/components/login/Login";
+import { FormFields } from "src/components/register/Register";
 import { axiosInstance } from "./apiClient";
 
 export const registerUserApi = async (data: FormFields) => {

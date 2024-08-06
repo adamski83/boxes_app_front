@@ -1,52 +1,64 @@
 import "./login.css";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Typography } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { Error } from "../error/Error";
-import { useMutation } from "@tanstack/react-query";
+import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
-import { registerUserApi } from "src/services/registerUserApi";
+import { useCookies } from "react-cookie";
+import { Error } from "../error/Error";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { FormFields } from "../register/Register";
+import { useMutation } from "@tanstack/react-query";
+import { loginUserApi } from "src/services/loginUserApi";
+import { useNavigate } from "react-router-dom";
+import { AxiosError } from "axios";
 
-export type FormFields = {
-  username: string;
-  password: string;
-};
-
-const useRegisterUser = () => {
-  const { mutate: registerUser } = useMutation({
-    mutationFn: (data: FormFields) =>
-      registerUserApi({
-        username: data.username,
-        password: data.password,
-      }),
-    onSuccess: () => {
-      console.log("Rejestracja zakończona sukcesem");
-      toast("Dodano nowego użytkownika");
-    },
-    onError: (error) => {
-      console.error("Błąd podczas rejestracji:", error);
-    },
-  });
-
-  return registerUser;
-};
+interface ErrorResponse {
+  response?: {
+    data: {
+      type: string;
+    };
+  };
+}
 
 export const Login = () => {
+  const [_, setCookie] = useCookies(["access_token"]);
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
 
-  const registerUser = useRegisterUser();
+  const { mutate: loginUser } = useMutation({
+    mutationFn: loginUserApi,
+    onSuccess: (data) => {
+      console.log("Logowanie zakończone sukcesem");
+      setCookie("access_token", data.token, {
+        path: "/",
+        maxAge: 3600,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict",
+      });
+      localStorage.setItem("userID", data.userID);
+      toast("Zalogowano użytkownika");
+      navigate("/dashboard");
+    },
+    onError: (error: AxiosError<ErrorResponse>): void => {
+      let errorMessage: string = "";
+      switch (error) {
+        case error.response?.data?.type:
+          errorMessage = error.response?.data?.type;
+          break;
+        default:
+          errorMessage = "Błąd logowania. Spróbuj ponownie.";
+          break;
+      }
+      console.error("Błąd podczas logowania:", error);
+      toast.error(error.response?.data.type);
+    },
+  });
 
-  const onSubmit: SubmitHandler<FormFields> = (
-    data,
-    e?: React.BaseSyntheticEvent,
-  ) => {
-    registerUser(data);
+  const onSubmit: SubmitHandler<FormFields> = (data, e) => {
+    loginUser(data);
     e?.target.reset();
   };
 
