@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { loginUserApi } from "src/services/loginUserApi";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
+import { assignTokenIntoAPI } from "src/services/assignTokenIntoAPI";
 
 interface ErrorResponse {
   response?: {
@@ -31,29 +32,23 @@ export const Login = () => {
   const { mutate: loginUser } = useMutation({
     mutationFn: loginUserApi,
     onSuccess: (data) => {
-      console.log("Logowanie zakończone sukcesem");
       setCookie("access_token", data.token, {
         path: "/",
-        maxAge: 3600,
+        httpOnly: true,
+        maxAge: 3600, // 1 hour in seconds
         secure: process.env.NODE_ENV === "production",
         sameSite: "strict",
       });
       localStorage.setItem("userID", data.userID);
-      toast("Zalogowano użytkownika");
+      localStorage.setItem("access_token", data.token);
+      assignTokenIntoAPI();
       navigate("/dashboard");
     },
     onError: (error: AxiosError<ErrorResponse>): void => {
-      let errorMessage: string = "";
-      switch (error) {
-        case error.response?.data?.type:
-          errorMessage = error.response?.data?.type;
-          break;
-        default:
-          errorMessage = "Błąd logowania. Spróbuj ponownie.";
-          break;
-      }
       console.error("Błąd podczas logowania:", error);
-      toast.error(error.response?.data.type);
+      toast.error(
+        error.response?.data.type || "Błąd logowania. Spróbuj ponownie.",
+      );
     },
   });
 
