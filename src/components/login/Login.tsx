@@ -1,7 +1,6 @@
 import "./login.css";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
-import { useCookies } from "react-cookie";
 import { Error } from "../error/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormFields } from "../register/Register";
@@ -20,7 +19,6 @@ interface ErrorResponse {
 }
 
 export const Login = () => {
-  const [_, setCookie] = useCookies(["access_token"]);
   const navigate = useNavigate();
 
   const {
@@ -32,13 +30,6 @@ export const Login = () => {
   const { mutate: loginUser } = useMutation({
     mutationFn: loginUserApi,
     onSuccess: (data) => {
-      setCookie("access_token", data.token, {
-        path: "/",
-        httpOnly: true,
-        maxAge: 3600, // 1 hour in seconds
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-      });
       localStorage.setItem("userID", data.userID);
       localStorage.setItem("access_token", data.token);
       assignTokenIntoAPI();
