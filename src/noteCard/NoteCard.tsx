@@ -22,9 +22,9 @@ const NoteCard = ({ item }: Props) => {
           title={item.name}
         />
         <CardContent>
-          <Typography variant="body2" color="textSecondary">
+          {/* <Typography variant="body2" color="textSecondary">
             {item.dimension.map((val) => val + "  ")}
-          </Typography>
+          </Typography> */}
           <Typography variant="body2" color="textSecondary">
             {item.usage}
           </Typography>

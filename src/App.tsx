@@ -14,7 +14,7 @@ function App() {
     <div className="app">
       <>
         <SidebarMenu />
-        <section className="section">
+        <>
           <Routes>
             <Route path={home} element={<Home />} />
             <Route path={dashboard} element={<Dashboard />} />
@@ -22,7 +22,7 @@ function App() {
             <Route path={login} element={<Login />} />
             <Route path={register} element={<Register />} />
           </Routes>
-        </section>
+        </>
       </>
     </div>
   );

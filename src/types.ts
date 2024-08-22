@@ -4,8 +4,8 @@ type MockDataItem = {
   dimension: [number, number, number];
   usage: [string, string, string];
   picture: string;
-  createdAt: string;
-  _id: string;
+  createdAt: Date;
+  _id?: string;
 };
 type MockData = MockDataItem[];
 
