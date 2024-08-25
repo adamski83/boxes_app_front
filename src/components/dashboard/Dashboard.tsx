@@ -11,6 +11,7 @@ import { MockData, MockDataItem } from "src/types";
 import { Controller, useForm } from "react-hook-form";
 import { addNewBoxApi } from "src/services/addNewBox";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteBoxApi } from "src/services/deleteOneBox";
 
 const Dashboard = () => {
   assignTokenIntoAPI();
@@ -37,9 +38,28 @@ const Dashboard = () => {
   };
   const addNewBox = useAddNewBox();
 
+  const useDeleteBox = () => {
+    const { mutate: deleteBox } = useMutation({
+      mutationFn: (id: string) => deleteBoxApi(id),
+      onSuccess: () => {
+        queryClient.invalidateQueries("boxes");
+        console.log("Usunięto box");
+      },
+      onError: (error) => {
+        console.error("Błąd podczas usuwania boxa:", error);
+      },
+    });
+    return deleteBox;
+  };
+  const deleteBox = useDeleteBox();
+
   const onSubmit = (box: MockData): void => {
     addNewBox(box);
     reset();
+  };
+
+  const handleDeleteItem = (id: string): void => {
+    deleteBox(id);
   };
 
   const filteredData = data
@@ -99,7 +119,7 @@ const Dashboard = () => {
           Add Item
         </Button>
       </form>
-      <Card data={filteredData} />
+      <Card data={filteredData} useDelete={handleDeleteItem} />
     </Container>
   );
 };
