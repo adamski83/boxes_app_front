@@ -13,11 +13,7 @@ export type FormFields = {
 
 const useRegisterUser = () => {
   const { mutate: registerUser } = useMutation({
-    mutationFn: (data: FormFields) =>
-      registerUserApi({
-        username: data.username,
-        password: data.password,
-      }),
+    mutationFn: (data: FormFields) => registerUserApi(data),
     onSuccess: () => {
       console.log("Rejestracja zakończona sukcesem");
       toast("Dodano nowego użytkownika");

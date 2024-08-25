@@ -1,7 +1,6 @@
 import "./login.css";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import toast, { Toaster } from "react-hot-toast";
-import { useCookies } from "react-cookie";
 import { Error } from "../error/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormFields } from "../register/Register";
@@ -9,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { loginUserApi } from "src/services/loginUserApi";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
+import { assignTokenIntoAPI } from "src/services/assignTokenIntoAPI";
 
 interface ErrorResponse {
   response?: {
@@ -19,7 +19,6 @@ interface ErrorResponse {
 }
 
 export const Login = () => {
-  const [_, setCookie] = useCookies(["access_token"]);
   const navigate = useNavigate();
 
   const {
@@ -31,29 +30,16 @@ export const Login = () => {
   const { mutate: loginUser } = useMutation({
     mutationFn: loginUserApi,
     onSuccess: (data) => {
-      console.log("Logowanie zakończone sukcesem");
-      setCookie("access_token", data.token, {
-        path: "/",
-        maxAge: 3600,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
-      });
       localStorage.setItem("userID", data.userID);
-      toast("Zalogowano użytkownika");
+      localStorage.setItem("access_token", data.token);
+      assignTokenIntoAPI();
       navigate("/dashboard");
     },
     onError: (error: AxiosError<ErrorResponse>): void => {
-      let errorMessage: string = "";
-      switch (error) {
-        case error.response?.data?.type:
-          errorMessage = error.response?.data?.type;
-          break;
-        default:
-          errorMessage = "Błąd logowania. Spróbuj ponownie.";
-          break;
-      }
       console.error("Błąd podczas logowania:", error);
-      toast.error(error.response?.data.type);
+      toast.error(
+        error.response?.data.type || "Błąd logowania. Spróbuj ponownie.",
+      );
     },
   });
 
