@@ -8,8 +8,14 @@ import { PATHS } from "./urls/urls";
 import { Register } from "./components/register/Register";
 import { Login } from "./components/login/Login";
 import { Toaster } from "react-hot-toast";
+import { assignTokenIntoAPI } from "./services/assignTokenIntoAPI";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    assignTokenIntoAPI();
+  }, []);
+
   return (
     <div className="app">
       <>

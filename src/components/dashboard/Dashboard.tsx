@@ -4,7 +4,6 @@ import Card from "../card/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { SearchBar } from "../searchBar/SearchBar";
-import { assignTokenIntoAPI } from "src/services/assignTokenIntoAPI";
 import { useBoxes } from "src/services/queries/getAllBoxes";
 import { Button, Container, TextField } from "@mui/material";
 import { MockData, MockDataItem } from "src/types";
@@ -14,7 +13,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useDeleteBox } from "src/services/mutations/deleteOneBox";
 
 const Dashboard = () => {
-  assignTokenIntoAPI();
   const { data, error, isLoading } = useBoxes();
   const { control, handleSubmit, reset } = useForm<MockDataItem>();
   const [searchTerm, setSearchTerm] = useState<String>("");
