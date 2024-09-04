@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
@@ -5,42 +6,68 @@ import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
-import { Link } from "react-router-dom";
-import { PATHS } from "src/urls/urls";
+
+const menuItems = [
+  {
+    to: "/",
+    className: "menu1",
+    icon: <MenuRoundedIcon />,
+    label: <h2>Sacs Box</h2>,
+  },
+  {
+    to: "/dashboard",
+    icon: <GridViewRoundedIcon />,
+    label: "Dashboard",
+  },
+  {
+    to: "/invoices",
+    icon: <ReceiptRoundedIcon />,
+    label: "Invoices",
+  },
+  {
+    label: "Settings",
+    icon: <SettingsApplicationsRoundedIcon />,
+    subMenu: [
+      {
+        icon: <AccountCircleRoundedIcon />,
+        label: "Account",
+      },
+    ],
+  },
+  {
+    to: "/login",
+    icon: <LogoutRoundedIcon />,
+    label: "Logout",
+  },
+];
 
 export const SidebarMenu = () => {
-  const { dashboard, invoices, login } = PATHS;
   return (
     <Sidebar rootStyles={{ width: "340px", minHeight: "100vh" }}>
       <Menu>
-        <MenuItem
-          component={<Link to="/" className="link" />}
-          className="menu1"
-          icon={<MenuRoundedIcon />}
-        >
-          <h2>Sacs Box</h2>
-        </MenuItem>
-        <MenuItem
-          component={<Link to={dashboard} className="link" />}
-          icon={<GridViewRoundedIcon />}
-        >
-          Dashboard
-        </MenuItem>
-        <MenuItem
-          component={<Link to={invoices} className="link" />}
-          icon={<ReceiptRoundedIcon />}
-        >
-          Invoices
-        </MenuItem>
-        <SubMenu label="Settings" icon={<SettingsApplicationsRoundedIcon />}>
-          <MenuItem icon={<AccountCircleRoundedIcon />}>Account</MenuItem>
-        </SubMenu>
-        <MenuItem
-          icon={<LogoutRoundedIcon />}
-          component={<Link to={login} className="link" />}
-        >
-          Logout
-        </MenuItem>
+        {menuItems.map((item, index) => {
+          if (item.subMenu) {
+            return (
+              <SubMenu key={index} label={item.label} icon={item.icon}>
+                {item.subMenu.map((subItem, subIndex) => (
+                  <MenuItem key={subIndex} icon={subItem.icon}>
+                    {subItem.label}
+                  </MenuItem>
+                ))}
+              </SubMenu>
+            );
+          }
+          return (
+            <MenuItem
+              key={index}
+              component={<Link to={item.to} className="link" />}
+              className={item.className}
+              icon={item.icon}
+            >
+              {item.label}
+            </MenuItem>
+          );
+        })}
       </Menu>
     </Sidebar>
   );

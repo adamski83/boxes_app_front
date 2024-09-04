@@ -9,4 +9,12 @@ type MockDataItem = {
 };
 type MockData = MockDataItem[];
 
-export type { MockData, MockDataItem };
+interface ErrorResponse {
+  response?: {
+    data: {
+      type: string;
+    };
+  };
+}
+
+export type { MockData, MockDataItem, ErrorResponse };

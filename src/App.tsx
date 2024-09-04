@@ -7,20 +7,21 @@ import Invoices from "./components/invoices/Invoices";
 import { PATHS } from "./urls/urls";
 import { Register } from "./components/register/Register";
 import { Login } from "./components/login/Login";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-  const { home, dashboard, invoices, login, register } = PATHS;
   return (
     <div className="app">
       <>
         <SidebarMenu />
+        <Toaster />
         <>
           <Routes>
-            <Route path={home} element={<Home />} />
-            <Route path={dashboard} element={<Dashboard />} />
-            <Route path={invoices} element={<Invoices />} />
-            <Route path={login} element={<Login />} />
-            <Route path={register} element={<Register />} />
+            <Route path={PATHS.home} element={<Home />} />
+            <Route path={PATHS.dashboard} element={<Dashboard />} />
+            <Route path={PATHS.invoices} element={<Invoices />} />
+            <Route path={PATHS.login} element={<Login />} />
+            <Route path={PATHS.register} element={<Register />} />
           </Routes>
         </>
       </>

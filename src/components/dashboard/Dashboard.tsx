@@ -5,13 +5,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { SearchBar } from "../searchBar/SearchBar";
 import { assignTokenIntoAPI } from "src/services/assignTokenIntoAPI";
-import { useBoxes } from "src/services/getAllBoxes";
+import { useBoxes } from "src/services/queries/getAllBoxes";
 import { Button, Container, TextField } from "@mui/material";
 import { MockData, MockDataItem } from "src/types";
 import { Controller, useForm } from "react-hook-form";
-import { addNewBoxApi } from "src/services/addNewBox";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteBoxApi } from "src/services/deleteOneBox";
+import { useAddNewBox } from "src/services/mutations/addNewBox";
+import { useQueryClient } from "@tanstack/react-query";
+import { useDeleteBox } from "src/services/mutations/deleteOneBox";
 
 const Dashboard = () => {
   assignTokenIntoAPI();
@@ -23,35 +23,25 @@ const Dashboard = () => {
     setSearchTerm(term);
   };
 
-  const useAddNewBox = () => {
-    const { mutate: addNewBox } = useMutation({
-      mutationFn: (data: MockData) => addNewBoxApi(data),
-      onSuccess: () => {
-        queryClient.invalidateQueries("boxes");
-        console.log("Dodano nowy box");
-      },
-      onError: (error) => {
-        console.error("Błąd podczas dodawania boxa:", error);
-      },
-    });
-    return addNewBox;
-  };
-  const addNewBox = useAddNewBox();
+  const { mutate: addNewBox } = useAddNewBox({
+    onSuccess: (data) => {
+      queryClient.invalidateQueries("boxes");
+      console.log("Box added successfully:", data);
+    },
+    onError: (error) => {
+      console.error("Error adding box:", error);
+    },
+  });
 
-  const useDeleteBox = () => {
-    const { mutate: deleteBox } = useMutation({
-      mutationFn: (id: string) => deleteBoxApi(id),
-      onSuccess: () => {
-        queryClient.invalidateQueries("boxes");
-        console.log("Usunięto box");
-      },
-      onError: (error) => {
-        console.error("Błąd podczas usuwania boxa:", error);
-      },
-    });
-    return deleteBox;
-  };
-  const deleteBox = useDeleteBox();
+  const { mutate: deleteBox } = useDeleteBox({
+    onSuccess: () => {
+      queryClient.invalidateQueries("boxes");
+      console.log("Box deleted successfully");
+    },
+    onError: (error) => {
+      console.error("Error deleting box:", error);
+    },
+  });
 
   const onSubmit = (box: MockData): void => {
     addNewBox(box);

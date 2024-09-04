@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { axiosInstance } from "./apiClient";
+import { axiosInstance } from "../apiClient";
 
-export const getAllBoxes = async () => {
+const getAllBoxes = async () => {
   const response = await axiosInstance.get("/api/box/search");
   return response.data;
 };
