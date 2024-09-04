@@ -7,24 +7,25 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { MockDataItem } from "src/types";
 interface Props {
   item: MockDataItem;
+  useDelete: (id?: string) => void;
 }
 
-const NoteCard = ({ item }: Props) => {
+const NoteCard = ({ item, useDelete }: Props) => {
   return (
     <div>
       <Card key={item._id}>
         <CardHeader
           action={
-            <IconButton onClick={() => console.log("deleted", item._id)}>
+            <IconButton onClick={() => useDelete(item._id)}>
               <DeleteOutlineIcon />
             </IconButton>
           }
           title={item.name}
         />
         <CardContent>
-          <Typography variant="body2" color="textSecondary">
+          {/* <Typography variant="body2" color="textSecondary">
             {item.dimension.map((val) => val + "  ")}
-          </Typography>
+          </Typography> */}
           <Typography variant="body2" color="textSecondary">
             {item.usage}
           </Typography>

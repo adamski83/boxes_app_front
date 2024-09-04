@@ -5,7 +5,24 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App.tsx";
 import "./index.css";
 
-const queryClient = new QueryClient({});
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 1000 * 30,
+      cacheTime: 1000 * 30,
+      refetchOnMount: "always",
+      refetchOnWindowFocus: "always",
+      refetchOnReconnect: "always",
+      refetchInterval: 1000 * 30,
+      refetchIntervalInBackground: true,
+      suspense: false,
+    },
+    mutations: {
+      retry: 2,
+    },
+  },
+});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
