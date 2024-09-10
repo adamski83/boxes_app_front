@@ -36,7 +36,3 @@ function App() {
 }
 
 export default App;
-
-//    adamkope82
-//    AfM2d8WA6bndH6BO
-//mongodb+srv://adamkope82:cOlBG0VO1tLONZJZ@cluster0.cxjn6.mongodb.net/
