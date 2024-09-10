@@ -9,8 +9,8 @@ type CardData = {
 };
 const Card = ({ data, useDelete }: CardData) => {
   return (
-    <Container style={{ marginTop: 40 }}>
-      <Grid container spacing={3}>
+    <Container style={{ marginTop: 10 }}>
+      <Grid container spacing={4}>
         {data.map((item) => (
           <Grid item key={item._id} xs={12} sm={12} md={12}>
             <NoteCard item={item} key={item._id} useDelete={useDelete} />
