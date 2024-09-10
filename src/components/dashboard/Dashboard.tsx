@@ -7,7 +7,7 @@ import { SearchBar } from "../searchBar/SearchBar";
 import { useBoxes } from "src/services/queries/getAllBoxes";
 import { Button, Container, TextField } from "@mui/material";
 import { MockData, MockDataItem } from "src/types";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { useAddNewBox } from "src/services/mutations/addNewBox";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDeleteBox } from "src/services/mutations/deleteOneBox";
@@ -23,7 +23,7 @@ const Dashboard = () => {
 
   const { mutate: addNewBox } = useAddNewBox({
     onSuccess: (data) => {
-      queryClient.invalidateQueries("boxes");
+      queryClient.invalidateQueries({ queryKey: ["boxes"] });
       console.log("Box added successfully:", data);
     },
     onError: (error) => {
@@ -33,7 +33,7 @@ const Dashboard = () => {
 
   const { mutate: deleteBox } = useDeleteBox({
     onSuccess: () => {
-      queryClient.invalidateQueries("boxes");
+      queryClient.invalidateQueries({ queryKey: ["boxes"] });
       console.log("Box deleted successfully");
     },
     onError: (error) => {
@@ -45,7 +45,6 @@ const Dashboard = () => {
     addNewBox(box);
     reset();
   };
-
   const handleDeleteItem = (id: string): void => {
     deleteBox(id);
   };
@@ -70,7 +69,7 @@ const Dashboard = () => {
   return (
     <Container>
       <SearchBar onSearch={handleSearch} />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} style={{ margin: 20 }}>
         <Controller
           name="name"
           control={control}
@@ -88,8 +87,14 @@ const Dashboard = () => {
         <Controller
           name="dimension"
           control={control}
-          defaultValue={[0, 0, 0]}
-          render={({ field }) => <TextField {...field} label="New Dimension" />}
+          defaultValue="0,0,0"
+          render={({ field }) => (
+            <TextField
+              {...field}
+              label="Dimensions (comma separated)"
+              placeholder="e.g. 10,20,30"
+            />
+          )}
         />
         <Controller
           name="usage"
