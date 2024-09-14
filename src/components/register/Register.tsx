@@ -8,6 +8,8 @@ import { useRegisterUser } from "src/services/mutations/registerUserApi";
 export type FormFields = {
   username: string;
   password: string;
+  userID: string;
+  token: string;
 };
 
 export const Register = () => {
@@ -18,9 +20,7 @@ export const Register = () => {
     },
     onError: (error) => {
       console.error("Error registering user:", error);
-      toast.error(
-        error.response?.data.type || "Error registering user. Try again.",
-      );
+      toast.error("Error registering user. Try again.");
     },
   });
   const {

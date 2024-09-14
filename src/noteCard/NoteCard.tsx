@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Card from "@mui/material/Card";
+
 import EditIcon from "@mui/icons-material/Edit";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -23,7 +24,7 @@ interface Props {
 }
 
 const NoteCard = ({ item }: Props) => {
-  const { amount, createdAt, dimension, name, picture, usage, _id } = item;
+  const { amount, name, usage, _id } = item;
   const { control, handleSubmit } = useForm<MockDataItem>({
     defaultValues: item,
   });
@@ -146,7 +147,7 @@ const NoteCard = ({ item }: Props) => {
               <Controller
                 name="dimension"
                 control={control}
-                defaultValue="0,0,0"
+                defaultValue={[0, 0, 0]}
                 render={({ field }) => (
                   <TextField
                     {...field}
@@ -158,7 +159,7 @@ const NoteCard = ({ item }: Props) => {
               <Controller
                 name="usage"
                 control={control}
-                defaultValue=""
+                defaultValue={["", "", ""]}
                 render={({ field }) => (
                   <TextField {...field} label="Item Usage" />
                 )}

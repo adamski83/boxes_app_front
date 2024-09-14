@@ -7,7 +7,7 @@ import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplica
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
-export const SidebarMenu = ({ onClose }) => {
+export const SidebarMenu = ({ onClose }: any) => {
   const menuItems = [
     {
       className: "menu1",
@@ -59,7 +59,7 @@ export const SidebarMenu = ({ onClose }) => {
           return (
             <MenuItem
               key={index}
-              component={<Link to={item.to} className="link" />}
+              component={<Link to={item.to || ""} className="link" />}
               className={item.className}
               icon={item.icon}
             >

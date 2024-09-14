@@ -10,11 +10,8 @@ type MockDataItem = {
 type MockData = MockDataItem[];
 
 interface ErrorResponse {
-  response?: {
-    data: {
-      type: string;
-    };
-  };
+  type: string;
+  response?: string;
 }
 
 export type { MockData, MockDataItem, ErrorResponse };
