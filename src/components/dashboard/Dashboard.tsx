@@ -5,16 +5,28 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { SearchBar } from "../searchBar/SearchBar";
 import { useBoxes } from "src/services/queries/getAllBoxes";
-import { Button, Container, TextField } from "@mui/material";
+import { Button, Container, Stack, TextField } from "@mui/material";
 import { MockData, MockDataItem } from "src/types";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useAddNewBox } from "src/services/mutations/addNewBox";
 import { useQueryClient } from "@tanstack/react-query";
-import { useDeleteBox } from "src/services/mutations/deleteOneBox";
+import { GET_BOXES } from "src/services/queries/tags";
+import BoxForm from "../form/AddItemForm";
+
+interface FormData {
+  name: string;
+  amount: number;
+  dimension: string;
+  usage: string;
+  picture: string;
+}
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
-  const { control, handleSubmit, reset } = useForm<MockDataItem>();
+  const {
+    reset,
+    formState: { errors },
+  } = useForm<FormData>();
   const [searchTerm, setSearchTerm] = useState<String>("");
   const queryClient = useQueryClient();
   const handleSearch = (term: string): void => {
@@ -23,7 +35,7 @@ const Dashboard = () => {
 
   const { mutate: addNewBox } = useAddNewBox({
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ["boxes"] });
+      queryClient.invalidateQueries({ queryKey: [GET_BOXES] });
       console.log("Box added successfully:", data);
     },
     onError: (error) => {
@@ -31,22 +43,9 @@ const Dashboard = () => {
     },
   });
 
-  const { mutate: deleteBox } = useDeleteBox({
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["boxes"] });
-      console.log("Box deleted successfully");
-    },
-    onError: (error) => {
-      console.error("Error deleting box:", error);
-    },
-  });
-
   const onSubmit = (box: MockData): void => {
     addNewBox(box);
     reset();
-  };
-  const handleDeleteItem = (id: string): void => {
-    deleteBox(id);
   };
 
   const filteredData = data
@@ -69,50 +68,8 @@ const Dashboard = () => {
   return (
     <Container>
       <SearchBar onSearch={handleSearch} />
-      <form onSubmit={handleSubmit(onSubmit)} style={{ margin: 20 }}>
-        <Controller
-          name="name"
-          control={control}
-          defaultValue=""
-          render={({ field }) => <TextField {...field} label="Item Name" />}
-        />
-        <Controller
-          name="amount"
-          control={control}
-          defaultValue={0}
-          render={({ field }) => (
-            <TextField {...field} label="Item Amount" type="number" />
-          )}
-        />
-        <Controller
-          name="dimension"
-          control={control}
-          defaultValue="0,0,0"
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Dimensions (comma separated)"
-              placeholder="e.g. 10,20,30"
-            />
-          )}
-        />
-        <Controller
-          name="usage"
-          control={control}
-          defaultValue=""
-          render={({ field }) => <TextField {...field} label="Item Usage" />}
-        />
-        <Controller
-          name="picture"
-          control={control}
-          defaultValue=""
-          render={({ field }) => <TextField {...field} label="Item Picture" />}
-        />
-        <Button type="submit" variant="contained">
-          Add Item
-        </Button>
-      </form>
-      <Card data={filteredData} useDelete={handleDeleteItem} />
+      <BoxForm onSubmit={onSubmit} />
+      <Card data={filteredData} />
     </Container>
   );
 };
