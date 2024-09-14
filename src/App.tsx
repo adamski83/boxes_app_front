@@ -43,7 +43,7 @@ function App() {
           </Drawer>
         </>
       ) : (
-        <SidebarMenu />
+        <SidebarMenu onClose={undefined} />
       )}
       <Toaster />
       <Routes>

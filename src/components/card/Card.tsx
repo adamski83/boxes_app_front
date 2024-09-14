@@ -1,4 +1,4 @@
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import "./card.css";
 import NoteCard from "src/noteCard/NoteCard";
 import { MockDataItem } from "src/types";

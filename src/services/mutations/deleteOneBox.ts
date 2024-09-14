@@ -8,7 +8,7 @@ import {
 const deleteBoxApi = async (id: string): Promise<void> => {
   try {
     await axiosInstance.delete(`/api/box/${id}`);
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(`Failed to delete box: ${error.message}`);
   }
 };

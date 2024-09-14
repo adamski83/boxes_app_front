@@ -5,8 +5,6 @@ import { Error } from "../error/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormFields } from "../register/Register";
 import { useNavigate } from "react-router-dom";
-import { AxiosError } from "axios";
-import { ErrorResponse } from "src/types";
 import { assignTokenIntoAPI } from "src/services/assignTokenIntoAPI";
 import { useUserLogin } from "src/services/mutations/loginUserApi";
 
@@ -25,10 +23,11 @@ export const Login = () => {
       assignTokenIntoAPI();
       navigate("/dashboard");
     },
-    onError: (error: AxiosError<ErrorResponse>): void => {
+    onError: (error: Error): void => {
       console.error("Błąd podczas logowania:", error);
       toast.error(
-        error.response?.data.type || "Błąd logowania. Spróbuj ponownie.",
+        // @ts-ignore
+        error.response?.data?.type || "Błąd logowania. Spróbuj ponownie.",
       );
     },
   });

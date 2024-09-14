@@ -5,9 +5,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { SearchBar } from "../searchBar/SearchBar";
 import { useBoxes } from "src/services/queries/getAllBoxes";
-import { Button, Container, Stack, TextField } from "@mui/material";
-import { MockData, MockDataItem } from "src/types";
-import { Controller, useForm } from "react-hook-form";
+import { Container } from "@mui/material";
+import { MockDataItem } from "src/types";
+import { useForm } from "react-hook-form";
 import { useAddNewBox } from "src/services/mutations/addNewBox";
 import { useQueryClient } from "@tanstack/react-query";
 import { GET_BOXES } from "src/services/queries/tags";
@@ -23,10 +23,7 @@ interface FormData {
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
-  const {
-    reset,
-    formState: { errors },
-  } = useForm<FormData>();
+  const { reset } = useForm<FormData>();
   const [searchTerm, setSearchTerm] = useState<String>("");
   const queryClient = useQueryClient();
   const handleSearch = (term: string): void => {
@@ -43,7 +40,7 @@ const Dashboard = () => {
     },
   });
 
-  const onSubmit = (box: MockData): void => {
+  const onSubmit = (box: any): void => {
     addNewBox(box);
     reset();
   };

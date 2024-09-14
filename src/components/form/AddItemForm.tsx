@@ -11,6 +11,8 @@ interface MockDataItem {
   name: string;
   amount: number;
   dimension: string;
+  usage: string;
+  picture?: string; // Add the 'picture' property
 }
 
 const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {

@@ -10,13 +10,11 @@ const queryClient = new QueryClient({
     queries: {
       retry: 2,
       staleTime: 1000 * 30,
-      cacheTime: 1000 * 30,
       refetchOnMount: "always",
       refetchOnWindowFocus: "always",
       refetchOnReconnect: "always",
       refetchInterval: 1000 * 30,
       refetchIntervalInBackground: true,
-      suspense: false,
     },
     mutations: {
       retry: 2,
