@@ -7,41 +7,40 @@ import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplica
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
-const menuItems = [
-  {
-    to: "/",
-    className: "menu1",
-    icon: <MenuRoundedIcon />,
-    label: <h2>Sacs Box</h2>,
-  },
-  {
-    to: "/dashboard",
-    icon: <GridViewRoundedIcon />,
-    label: "Dashboard",
-  },
-  {
-    to: "/invoices",
-    icon: <ReceiptRoundedIcon />,
-    label: "Invoices",
-  },
-  {
-    label: "Settings",
-    icon: <SettingsApplicationsRoundedIcon />,
-    subMenu: [
-      {
-        icon: <AccountCircleRoundedIcon />,
-        label: "Account",
-      },
-    ],
-  },
-  {
-    to: "/login",
-    icon: <LogoutRoundedIcon />,
-    label: "Logout",
-  },
-];
+export const SidebarMenu = ({ onClose }) => {
+  const menuItems = [
+    {
+      className: "menu1",
+      icon: <MenuRoundedIcon onClick={onClose} />,
+      label: <h2>Your Box</h2>,
+    },
+    {
+      to: "/dashboard",
+      icon: <GridViewRoundedIcon />,
+      label: "Dashboard",
+    },
+    {
+      to: "/invoices",
+      icon: <ReceiptRoundedIcon />,
+      label: "Invoices",
+    },
+    {
+      label: "Settings",
+      icon: <SettingsApplicationsRoundedIcon />,
+      subMenu: [
+        {
+          icon: <AccountCircleRoundedIcon />,
+          label: "Account",
+        },
+      ],
+    },
+    {
+      to: "/login",
+      icon: <LogoutRoundedIcon />,
+      label: "Logout",
+    },
+  ];
 
-export const SidebarMenu = () => {
   return (
     <Sidebar rootStyles={{ width: "340px", minHeight: "100vh" }}>
       <Menu>
