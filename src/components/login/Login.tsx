@@ -1,5 +1,12 @@
 import "./login.css";
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import toast from "react-hot-toast";
 import { Error } from "../error/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -38,12 +45,7 @@ export const Login = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      height="100%"
-    >
+    <Container>
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Box className="login__popup">
           <Paper />
@@ -87,6 +89,6 @@ export const Login = () => {
           </Button>
         </Box>
       </form>
-    </Box>
+    </Container>
   );
 };

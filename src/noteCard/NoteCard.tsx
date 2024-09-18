@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Card from "@mui/material/Card";
-
+import QRCode from "react-qr-code";
 import EditIcon from "@mui/icons-material/Edit";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -84,6 +84,21 @@ const NoteCard = ({ item }: Props) => {
             title={name}
           />
           <CardContent>
+            <div
+              style={{
+                height: "auto",
+                margin: "0 auto",
+                maxWidth: 64,
+                width: "100%",
+              }}
+            >
+              <QRCode
+                size={256}
+                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                value={name}
+                viewBox={`0 0 256 256`}
+              />
+            </div>
             <Typography variant="body2" color="textSecondary">
               {/* {modifedDimension} */}
             </Typography>

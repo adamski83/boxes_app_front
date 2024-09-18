@@ -12,7 +12,7 @@ interface MockDataItem {
   amount: number;
   dimension: string;
   usage: string;
-  picture?: string; // Add the 'picture' property
+  picture?: string;
 }
 
 const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {

@@ -14,11 +14,12 @@ import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { Drawer, IconButton } from "@mui/material";
+import { breakpoints } from "./breakpoints";
 
 function App() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down(breakpoints.sm));
   const toggleDrawer = (open: boolean) => () => {
     setIsDrawerOpen(open);
   };

@@ -1,42 +1,43 @@
-import { Link } from "react-router-dom";
-import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
-import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
-import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
+import { Link } from "react-router-dom";
 
 export const SidebarMenu = ({ onClose }: any) => {
   const menuItems = [
     {
+      to: "",
       className: "menu1",
       icon: <MenuRoundedIcon onClick={onClose} />,
       label: <h2>Your Box</h2>,
     },
     {
       to: "/dashboard",
-      icon: <GridViewRoundedIcon />,
+      icon: <GridViewRoundedIcon onClick={onClose} />,
       label: "Dashboard",
     },
     {
       to: "/invoices",
-      icon: <ReceiptRoundedIcon />,
+      icon: <ReceiptRoundedIcon onClick={onClose} />,
       label: "Invoices",
     },
     {
       label: "Settings",
-      icon: <SettingsApplicationsRoundedIcon />,
+      icon: <SettingsApplicationsRoundedIcon onClick={onClose} />,
       subMenu: [
         {
-          icon: <AccountCircleRoundedIcon />,
+          icon: <AccountCircleRoundedIcon onClick={onClose} />,
           label: "Account",
         },
       ],
     },
     {
       to: "/login",
-      icon: <LogoutRoundedIcon />,
+      icon: <LogoutRoundedIcon onClick={onClose} />,
       label: "Logout",
     },
   ];

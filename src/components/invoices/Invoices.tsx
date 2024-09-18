@@ -1,11 +1,8 @@
 import "./invoices.css";
+import QRCode from "react-qr-code";
 
 const Invoices = () => {
-  return (
-    <div className="invoices__header">
-      <h2>Invoices</h2>
-    </div>
-  );
+  return <h1>Invoices</h1>;
 };
 
 export default Invoices;
