@@ -3,7 +3,8 @@
   flex-direction: column;
   justify-content: center;
   min-width: 350px;
-  height: 75vh;
+  height: 70vh;
+  margin-top: 15vh;
   border: 0.1rem black solid;
   border-radius: 4.5rem;
   background-color: #eef6fd;

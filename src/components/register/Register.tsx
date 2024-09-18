@@ -1,6 +1,13 @@
 import "./register.css";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Error } from "../error/Error";
 import toast from "react-hot-toast";
 import { useRegisterUser } from "src/services/mutations/registerUserApi";
@@ -38,12 +45,7 @@ export const Register = () => {
   };
 
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="center"
-      height="100%"
-    >
+    <Container>
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Box className="register__popup">
           <Paper />
@@ -87,6 +89,6 @@ export const Register = () => {
           </Button>
         </Box>
       </form>
-    </Box>
+    </Container>
   );
 };
