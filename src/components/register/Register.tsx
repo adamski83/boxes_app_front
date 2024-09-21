@@ -2,38 +2,32 @@ import "./register.css";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { Error } from "../error/Error";
-import { useMutation } from "@tanstack/react-query";
-import toast, { Toaster } from "react-hot-toast";
-import { registerUserApi } from "src/services/registerUserApi";
+import toast from "react-hot-toast";
+import { useRegisterUser } from "src/services/mutations/registerUserApi";
 
 export type FormFields = {
   username: string;
   password: string;
 };
 
-const useRegisterUser = () => {
-  const { mutate: registerUser } = useMutation({
-    mutationFn: (data: FormFields) => registerUserApi(data),
-    onSuccess: () => {
-      console.log("Rejestracja zakończona sukcesem");
-      toast("Dodano nowego użytkownika");
+export const Register = () => {
+  const { mutate: registerUser } = useRegisterUser({
+    onSuccess: (data) => {
+      console.log("User registered successfully:", data);
+      toast.success("User registered successfully");
     },
     onError: (error) => {
-      console.error("Błąd podczas rejestracji:", error);
+      console.error("Error registering user:", error);
+      toast.error(
+        error.response?.data.type || "Error registering user. Try again.",
+      );
     },
   });
-
-  return registerUser;
-};
-
-export const Register = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
-
-  const registerUser = useRegisterUser();
 
   const onSubmit: SubmitHandler<FormFields> = (
     data,
@@ -50,7 +44,6 @@ export const Register = () => {
       justifyContent="center"
       height="100%"
     >
-      <Toaster />
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Box className="register__popup">
           <Paper />

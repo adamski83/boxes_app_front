@@ -1,22 +1,14 @@
 import "./login.css";
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Error } from "../error/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormFields } from "../register/Register";
-import { useMutation } from "@tanstack/react-query";
-import { loginUserApi } from "src/services/loginUserApi";
 import { useNavigate } from "react-router-dom";
 import { AxiosError } from "axios";
+import { ErrorResponse } from "src/types";
 import { assignTokenIntoAPI } from "src/services/assignTokenIntoAPI";
-
-interface ErrorResponse {
-  response?: {
-    data: {
-      type: string;
-    };
-  };
-}
+import { useUserLogin } from "src/services/mutations/loginUserApi";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -26,9 +18,7 @@ export const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>();
-
-  const { mutate: loginUser } = useMutation({
-    mutationFn: loginUserApi,
+  const { mutate: loginUser } = useUserLogin({
     onSuccess: (data) => {
       localStorage.setItem("userID", data.userID);
       localStorage.setItem("access_token", data.token);
@@ -55,7 +45,6 @@ export const Login = () => {
       justifyContent="center"
       height="100%"
     >
-      <Toaster />
       <form className="form" onSubmit={handleSubmit(onSubmit)}>
         <Box className="login__popup">
           <Paper />
