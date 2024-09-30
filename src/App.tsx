@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "./components/home/Home";
 import MenuIcon from "@mui/icons-material/Menu";
 import Dashboard from "./components/dashboard/Dashboard";
-import Invoices from "./components/invoices/Invoices";
+import { Invoices } from "./components/invoices/Invoices";
 import { PATHS } from "./urls/urls";
 import { Register } from "./components/register/Register";
 import { Login } from "./components/login/Login";
@@ -17,6 +17,7 @@ import { Drawer, IconButton } from "@mui/material";
 import { breakpoints } from "./breakpoints";
 import { AuthProvider } from "./components/AuthContext/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import { EditBox } from "./components/invoices/EditBox";
 
 const App: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -55,9 +56,8 @@ const App: React.FC = () => {
           <Route element={<ProtectedRoute />}>
             <Route path={PATHS.home} element={<Home />} />
             <Route path={PATHS.dashboard} element={<Dashboard />} />
-            <Route path={PATHS.invoices} element={<Invoices />} />
-            {/* <Route path="/edit/:id" element={<EditDialog />} />
-            <Route path="/scan" element={<QRScanner />} /> */}
+            <Route path={PATHS.qrScanner} element={<Invoices />} />
+            <Route path="/edit/:id" element={<EditBox />} />
           </Route>
           <Route path={PATHS.login} element={<Login />} />
           <Route path={PATHS.register} element={<Register />} />
