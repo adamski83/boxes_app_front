@@ -1,15 +1,15 @@
 type paths = {
   home: string;
   dashboard: string;
-  invoices: string;
   login: string;
   register: string;
+  qrScanner: string;
 };
 
 export const PATHS: paths = {
   home: "/",
   dashboard: "/dashboard",
-  invoices: "/invoices",
+  qrScanner: "/qr-scanner",
   register: "/register",
   login: "/login",
 };

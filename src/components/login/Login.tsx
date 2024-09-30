@@ -11,13 +11,11 @@ import toast from "react-hot-toast";
 import { Error } from "../error/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FormFields } from "../register/Register";
-import { useNavigate } from "react-router-dom";
-import { assignTokenIntoAPI } from "src/services/assignTokenIntoAPI";
 import { useUserLogin } from "src/services/mutations/loginUserApi";
+import { useAuth } from "../AuthContext/AuthContext";
 
 export const Login = () => {
-  const navigate = useNavigate();
-
+  const login = useAuth();
   const {
     register,
     handleSubmit,
@@ -27,8 +25,6 @@ export const Login = () => {
     onSuccess: (data) => {
       localStorage.setItem("userID", data.userID);
       localStorage.setItem("access_token", data.token);
-      assignTokenIntoAPI();
-      navigate("/dashboard");
     },
     onError: (error: Error): void => {
       console.error("Błąd podczas logowania:", error);
@@ -41,6 +37,7 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<FormFields> = (data, e) => {
     loginUser(data);
+    login.login();
     e?.target.reset();
   };
 

@@ -21,9 +21,9 @@ export const SidebarMenu = ({ onClose }: any) => {
       label: "Dashboard",
     },
     {
-      to: "/invoices",
+      to: "/qr-scanner",
       icon: <ReceiptRoundedIcon onClick={onClose} />,
-      label: "Invoices",
+      label: "QR Scanner",
     },
     {
       label: "Settings",

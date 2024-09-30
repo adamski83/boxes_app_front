@@ -5,7 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { SearchBar } from "../searchBar/SearchBar";
 import { useBoxes } from "src/services/queries/getAllBoxes";
-import { Container } from "@mui/material";
+import { Container, Grid } from "@mui/material";
 import { MockDataItem } from "src/types";
 import { useForm } from "react-hook-form";
 import { useAddNewBox } from "src/services/mutations/addNewBox";
@@ -64,9 +64,17 @@ const Dashboard = () => {
 
   return (
     <Container>
-      <SearchBar onSearch={handleSearch} />
-      <BoxForm onSubmit={onSubmit} />
-      <Card data={filteredData} />
+      <Grid container spacing={2}>
+        <Grid item xs={12}>
+          <SearchBar onSearch={handleSearch} />
+        </Grid>
+        <Grid item xs={12}>
+          <BoxForm onSubmit={onSubmit} />
+        </Grid>
+        <Grid item xs={12}>
+          <Card data={filteredData} />
+        </Grid>
+      </Grid>
     </Container>
   );
 };
