@@ -32,7 +32,6 @@ const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {
           <Controller
             name="name"
             control={control}
-            defaultValue=""
             rules={{ required: "Name is required" }}
             render={({ field }) => (
               <TextField
@@ -46,7 +45,6 @@ const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {
           <Controller
             name="amount"
             control={control}
-            defaultValue={0}
             rules={{
               required: "Amount is required",
               min: { value: 1, message: "Amount must be at least 1" },
@@ -64,7 +62,6 @@ const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {
           <Controller
             name="dimension"
             control={control}
-            defaultValue="0,0,0"
             rules={{
               required: "Dimensions are required",
               pattern: {
@@ -85,7 +82,6 @@ const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {
           <Controller
             name="usage"
             control={control}
-            defaultValue=""
             rules={{ required: "Usage is required" }}
             render={({ field }) => (
               <TextField
@@ -99,7 +95,6 @@ const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {
           <Controller
             name="picture"
             control={control}
-            defaultValue=""
             rules={{ required: false }}
             render={({ field }) => (
               <TextField
