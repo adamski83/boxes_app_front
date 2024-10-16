@@ -11,16 +11,15 @@ interface QrScannerProps {
 const QrScanner: React.FC<QrScannerProps> = ({ onScan }) => {
   const navigate = useNavigate();
   const handleScan = (data: string | null) => {
+    if (!data) {
+      return <p>not found any data to scan</p>;
+    }
     if (data) {
       onScan(data);
       navigate(`/edit/${data}`);
     }
   };
-  return (
-    <>
-      <Scanner onScan={(data) => handleScan(data[0].rawValue)} />
-    </>
-  );
+  return <Scanner onScan={(data) => handleScan(data[0].rawValue)} />;
 };
 
 export default QrScanner;

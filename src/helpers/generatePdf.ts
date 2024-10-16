@@ -5,10 +5,14 @@ import { MockData, MockDataItem } from "src/types";
 export const generatePDF = (data: MockData) => {
   const doc = new jsPDF();
   const tableColumn = ["Name of the Box", "Description", "Amount"];
-  const tableRows: any[] = [];
+  const tableRows: (string | number)[][] = [];
 
   data.forEach((item: MockDataItem) => {
-    const itemData = [item.name, item.usage, item.amount];
+    const itemData: [string, string, number] = [
+      item.name,
+      item.usage,
+      item.amount,
+    ];
     tableRows.push(itemData);
   });
 

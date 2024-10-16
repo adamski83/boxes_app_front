@@ -13,16 +13,18 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import { Controller, useForm } from "react-hook-form";
 import { MockDataItem } from "src/types";
+import { FormControllerProps } from "src/types";
 
 const EditFormController = ({
   onSubmit,
   deleteItemHandler,
   item,
   toggleEdit,
-}: any) => {
+}: FormControllerProps) => {
   const { control, handleSubmit } = useForm<MockDataItem>({
     defaultValues: item,
   });
+
   const { _id, amount, name, usage } = item;
   return (
     <>
@@ -60,21 +62,24 @@ const EditFormController = ({
           <Controller
             name="name"
             control={control}
-            defaultValue=""
             render={({ field }) => <TextField {...field} label="Item Name" />}
           />
           <Controller
             name="amount"
             control={control}
-            defaultValue={0}
             render={({ field }) => (
-              <TextField {...field} label="Item Amount" type="number" />
+              <TextField
+                {...field}
+                label="Item Amount"
+                type="number"
+                inputProps={{ min: 0 }}
+              />
             )}
           />
           <Controller
             name="dimension"
             control={control}
-            defaultValue={[0, 0, 0]}
+            rules={{ min: 0 }}
             render={({ field }) => (
               <TextField
                 {...field}
@@ -86,13 +91,11 @@ const EditFormController = ({
           <Controller
             name="usage"
             control={control}
-            defaultValue={["", "", ""]}
             render={({ field }) => <TextField {...field} label="Item Usage" />}
           />
           <Controller
             name="picture"
             control={control}
-            defaultValue=""
             render={({ field }) => (
               <TextField {...field} label="Item Picture" />
             )}

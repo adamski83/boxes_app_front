@@ -5,13 +5,15 @@ import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
 import { IconButton, Typography } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { FormControllerProps } from "src/types";
 
 export const FormController = ({
   item,
   deleteItemHandler,
   toggleEdit,
-}: any) => {
+}: FormControllerProps) => {
   const { amount, name, usage, _id } = item;
+
   return (
     <Card key={_id}>
       <CardHeader
@@ -39,7 +41,7 @@ export const FormController = ({
           <QRCode
             size={256}
             style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-            value={name}
+            value={_id || ""}
             viewBox={`0 0 256 256`}
           />
         </div>
