@@ -8,10 +8,12 @@ import { useBoxes } from "src/services/queries/getAllBoxes";
 import { Container, Grid, Pagination } from "@mui/material";
 import { MockDataItem } from "src/types";
 import BoxForm from "../form/AddItemForm";
+import { useDebounce } from "src/helpers/useDebounce";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
   const [searchTerm, setSearchTerm] = useState<String>("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
   const [page, setPage] = useState(1);
   const [itemsPerPage] = useState(10);
 
@@ -29,7 +31,7 @@ const Dashboard = () => {
 
   const filteredData = data
     ? data.filter((box: MockDataItem) =>
-        box.name.toLowerCase().includes(searchTerm.toLowerCase()),
+        box.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()),
       )
     : [];
 
