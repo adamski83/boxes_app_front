@@ -12,7 +12,7 @@ export const FormController = ({
   deleteItemHandler,
   toggleEdit,
 }: FormControllerProps) => {
-  const { amount, name, usage, _id } = item;
+  const { amount, name, usage, _id, storage } = item;
 
   return (
     <Card key={_id}>
@@ -53,6 +53,9 @@ export const FormController = ({
         </Typography>
         <Typography variant="body2" color="textSecondary">
           {amount}
+        </Typography>
+        <Typography variant="body2" color="textSecondary">
+          {storage}
         </Typography>
       </CardContent>
     </Card>

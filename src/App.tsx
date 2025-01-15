@@ -13,7 +13,7 @@ import { assignTokenIntoAPI } from "./services/assignTokenIntoAPI";
 import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { Drawer, IconButton } from "@mui/material";
+import { Box, Drawer, IconButton } from "@mui/material";
 import { breakpoints } from "./breakpoints";
 import { AuthProvider } from "./components/AuthContext/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -37,15 +37,32 @@ const App: React.FC = () => {
       <div className="app">
         {isMobile ? (
           <>
-            <IconButton onClick={toggleDrawer(true)}>
+            <IconButton
+              onClick={toggleDrawer(true)}
+              sx={{
+                position: "fixed",
+                top: 0,
+                left: 0,
+                zIndex: 1000,
+              }}
+            >
               <MenuIcon />
             </IconButton>
             <Drawer
-              anchor="left"
+              anchor="top"
               open={isDrawerOpen}
               onClose={toggleDrawer(false)}
+              PaperProps={{
+                sx: {
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                },
+              }}
             >
-              <SidebarMenu onClose={toggleDrawer(false)} />
+              <Box textAlign="center">
+                <SidebarMenu onClose={toggleDrawer(false)} />
+              </Box>
             </Drawer>
           </>
         ) : (

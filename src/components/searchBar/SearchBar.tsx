@@ -16,6 +16,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
 
   return (
     <TextField
+      margin="normal"
       fullWidth
       variant="outlined"
       placeholder="Search boxes..."

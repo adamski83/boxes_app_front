@@ -6,6 +6,7 @@ type MockDataItem = {
   picture: string;
   createdAt: Date;
   _id?: string;
+  storage?: string;
 };
 type MockData = MockDataItem[];
 

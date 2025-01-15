@@ -8,11 +8,16 @@ import {
   Stack,
   TextField,
   Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import { Controller, useForm } from "react-hook-form";
 import { MockDataItem } from "src/types";
+
 import { FormControllerProps } from "src/types";
 
 const EditFormController = ({
@@ -22,10 +27,23 @@ const EditFormController = ({
   toggleEdit,
 }: FormControllerProps) => {
   const { control, handleSubmit } = useForm<MockDataItem>({
-    defaultValues: item,
+    defaultValues: {
+      name: item.name,
+      amount: item.amount,
+      dimension: item.dimension,
+      usage: item.usage,
+      storage: item.storage,
+    },
   });
-
-  const { _id, amount, name, usage } = item;
+  const storageOptions = [
+    "",
+    "Warehouse A",
+    "Warehouse B",
+    "Storage Room 1",
+    "Storage Room 2",
+    "External Storage",
+  ];
+  const { _id, amount, name, usage, storage } = item;
   return (
     <>
       <Card key={_id}>
@@ -98,6 +116,23 @@ const EditFormController = ({
             control={control}
             render={({ field }) => (
               <TextField {...field} label="Item Picture" />
+            )}
+          />
+          <Controller
+            name="storage"
+            control={control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <FormControl fullWidth>
+                <InputLabel>Storage Place</InputLabel>
+                <Select {...field} label="Storage Place">
+                  {storageOptions.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             )}
           />
           <Button type="submit" variant="contained" size="medium">

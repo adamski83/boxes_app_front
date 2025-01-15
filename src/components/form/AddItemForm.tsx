@@ -1,10 +1,18 @@
 import React from "react";
-import { useForm, Controller, SubmitHandler } from "react-hook-form";
-import { TextField, Button, Stack, Box } from "@mui/material";
-
-interface BoxFormProps {
-  onSubmit: SubmitHandler<MockDataItem>;
-}
+import { useForm, Controller } from "react-hook-form";
+import {
+  TextField,
+  Button,
+  Stack,
+  Box,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
+import { useAddNewBox } from "src/services/mutations/addNewBox";
+import { useQueryClient } from "@tanstack/react-query";
+import { GET_BOXES } from "src/services/queries/tags";
 
 interface MockDataItem {
   id?: string;
@@ -13,18 +21,53 @@ interface MockDataItem {
   dimension: string;
   usage: string;
   picture?: string;
+  storage?: string;
 }
 
-const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {
+const BoxForm: React.FC = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<MockDataItem>();
+  } = useForm<MockDataItem>({
+    defaultValues: {
+      name: "",
+      amount: 0,
+      dimension: "",
+      usage: "",
+      picture: "",
+      storage: "",
+    },
+  });
+
+  const queryClient = useQueryClient();
+  const { mutate: addNewBox } = useAddNewBox({
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: [GET_BOXES] });
+      console.log("Box added successfully:", data);
+      reset();
+    },
+    onError: (error) => {
+      console.error("Error adding box:", error);
+    },
+  });
+
+  const onSubmitHandler = (box: any): void => {
+    addNewBox(box);
+  };
+  const storageOptions = [
+    "",
+    "Warehouse A",
+    "Warehouse B",
+    "Storage Room 1",
+    "Storage Room 2",
+    "External Storage",
+  ];
 
   return (
     <Box>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmitHandler)}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
@@ -63,7 +106,6 @@ const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {
             name="dimension"
             control={control}
             rules={{
-              required: "Dimensions are required",
               pattern: {
                 value: /^\d+,\d+,\d+$/,
                 message: "Dimensions must be in the format x,y,z",
@@ -104,8 +146,25 @@ const BoxForm: React.FC<BoxFormProps> = ({ onSubmit }) => {
               />
             )}
           />
+          <Controller
+            name="storage"
+            control={control}
+            rules={{ required: false }}
+            render={({ field }) => (
+              <FormControl fullWidth>
+                <InputLabel>Storage Place</InputLabel>
+                <Select {...field} label="Storage Place">
+                  {storageOptions.map((option) => (
+                    <MenuItem key={option} value={option}>
+                      {option}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+          />
           <Button type="submit" variant="contained" size="medium">
-            Submit
+            Add new Item
           </Button>
         </Stack>
       </form>

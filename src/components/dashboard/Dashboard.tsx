@@ -5,44 +5,26 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { SearchBar } from "../searchBar/SearchBar";
 import { useBoxes } from "src/services/queries/getAllBoxes";
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Pagination } from "@mui/material";
 import { MockDataItem } from "src/types";
-import { useForm } from "react-hook-form";
-import { useAddNewBox } from "src/services/mutations/addNewBox";
-import { useQueryClient } from "@tanstack/react-query";
-import { GET_BOXES } from "src/services/queries/tags";
 import BoxForm from "../form/AddItemForm";
-
-interface FormData {
-  name: string;
-  amount: number;
-  dimension: string;
-  usage: string;
-  picture: string;
-}
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
-  const { reset } = useForm<FormData>();
   const [searchTerm, setSearchTerm] = useState<String>("");
-  const queryClient = useQueryClient();
-  const handleSearch = (term: string): void => {
+  const [page, setPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+
+  const handleSearch = (term: string) => {
     setSearchTerm(term);
+    setPage(1);
   };
 
-  const { mutate: addNewBox } = useAddNewBox({
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: [GET_BOXES] });
-      console.log("Box added successfully:", data);
-    },
-    onError: (error) => {
-      console.error("Error adding box:", error);
-    },
-  });
-
-  const onSubmit = (box: any): void => {
-    addNewBox(box);
-    reset();
+  const handlePageChange = (
+    event: React.ChangeEvent<unknown>,
+    value: number,
+  ) => {
+    setPage(value);
   };
 
   const filteredData = data
@@ -50,6 +32,11 @@ const Dashboard = () => {
         box.name.toLowerCase().includes(searchTerm.toLowerCase()),
       )
     : [];
+
+  const paginatedData = filteredData.slice(
+    (page - 1) * itemsPerPage,
+    page * itemsPerPage,
+  );
 
   if (error) {
     return <h2>There was an ERROR</h2>;
@@ -65,14 +52,24 @@ const Dashboard = () => {
   return (
     <Container>
       <Grid container spacing={2}>
-        <Grid item xs={12}>
+        <Grid item xs={12} marginTop={3}>
           <SearchBar onSearch={handleSearch} />
         </Grid>
         <Grid item xs={12}>
-          <BoxForm onSubmit={onSubmit} />
+          <BoxForm />
         </Grid>
         <Grid item xs={12}>
-          <Card data={filteredData} />
+          <Card data={paginatedData} />
+        </Grid>
+        <Grid item xs={12}>
+          <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
+            <Pagination
+              count={Math.ceil(filteredData.length / itemsPerPage)}
+              page={page}
+              onChange={handlePageChange}
+              color="primary"
+            />
+          </Box>
         </Grid>
       </Grid>
     </Container>
