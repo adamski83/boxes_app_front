@@ -37,7 +37,7 @@ const BoxForm: React.FC = () => {
       dimension: "",
       usage: "",
       picture: "",
-      storage: "",
+      storage: "DEFAULT_STORAGE",
     },
   });
 
@@ -57,7 +57,6 @@ const BoxForm: React.FC = () => {
     addNewBox(box);
   };
   const storageOptions = [
-    "",
     "Warehouse A",
     "Warehouse B",
     "Storage Room 1",
@@ -69,7 +68,7 @@ const BoxForm: React.FC = () => {
     <Box>
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <Stack
-          direction={{ xs: "column", sm: "row" }}
+          direction={{ xs: "column", sm: "column", md: "column" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
         >
           <Controller
@@ -151,9 +150,13 @@ const BoxForm: React.FC = () => {
             control={control}
             rules={{ required: false }}
             render={({ field }) => (
-              <FormControl fullWidth>
+              <FormControl>
                 <InputLabel>Storage Place</InputLabel>
-                <Select {...field} label="Storage Place">
+                <Select
+                  {...field}
+                  label="Storage Place"
+                  error={!!errors.storage}
+                >
                   {storageOptions.map((option) => (
                     <MenuItem key={option} value={option}>
                       {option}

@@ -4,6 +4,7 @@ type paths = {
   login: string;
   register: string;
   qrScanner: string;
+  invoices: string;
 };
 
 export const PATHS: paths = {
@@ -12,4 +13,5 @@ export const PATHS: paths = {
   qrScanner: "/qr-scanner",
   register: "/register",
   login: "/login",
+  invoices: "/invoices",
 };
