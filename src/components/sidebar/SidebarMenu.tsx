@@ -1,10 +1,9 @@
-import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
-import { Menu, MenuItem, Sidebar, SubMenu } from "react-pro-sidebar";
+import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 
 export const SidebarMenu = ({ onClose }: any) => {
@@ -26,14 +25,9 @@ export const SidebarMenu = ({ onClose }: any) => {
       label: "QR Scanner",
     },
     {
-      label: "Settings",
+      to: "/Invoices",
+      label: "Invoices",
       icon: <SettingsApplicationsRoundedIcon onClick={onClose} />,
-      subMenu: [
-        {
-          icon: <AccountCircleRoundedIcon onClick={onClose} />,
-          label: "Account",
-        },
-      ],
     },
     {
       to: "/login",
@@ -46,17 +40,6 @@ export const SidebarMenu = ({ onClose }: any) => {
     <Sidebar rootStyles={{ width: "340px", minHeight: "100vh" }}>
       <Menu>
         {menuItems.map((item, index) => {
-          if (item.subMenu) {
-            return (
-              <SubMenu key={index} label={item.label} icon={item.icon}>
-                {item.subMenu.map((subItem, subIndex) => (
-                  <MenuItem key={subIndex} icon={subItem.icon}>
-                    {subItem.label}
-                  </MenuItem>
-                ))}
-              </SubMenu>
-            );
-          }
           return (
             <MenuItem
               key={index}

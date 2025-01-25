@@ -18,6 +18,7 @@ import { breakpoints } from "./breakpoints";
 import { AuthProvider } from "./components/AuthContext/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { EditBox } from "./components/invoices/EditBox";
+import { Orders } from "./orders/Orders";
 
 const App: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -75,6 +76,7 @@ const App: React.FC = () => {
             <Route path={PATHS.dashboard} element={<Dashboard />} />
             <Route path={PATHS.qrScanner} element={<Invoices />} />
             <Route path="/edit/:id" element={<EditBox />} />
+            <Route path={PATHS.invoices} element={<Orders />} />
           </Route>
           <Route path={PATHS.login} element={<Login />} />
           <Route path={PATHS.register} element={<Register />} />

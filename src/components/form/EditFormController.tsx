@@ -74,7 +74,7 @@ const EditFormController = ({
       </Card>
       <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: 20 }}>
         <Stack
-          direction={{ xs: "column", sm: "row" }}
+          direction={{ xs: "column", sm: "column", md: "column" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
         >
           <Controller

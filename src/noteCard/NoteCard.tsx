@@ -1,18 +1,18 @@
-import { useState } from "react";
-import { MockDataItem } from "src/types";
-import { SubmitHandler } from "react-hook-form";
-import { useUpdateBox } from "src/services/mutations/updateBox";
 import { useQueryClient } from "@tanstack/react-query";
-import { GET_BOXES } from "src/services/queries/tags";
-import { useDeleteBox } from "src/services/mutations/deleteOneBox";
-import { FormController } from "src/components/form/FormController";
+import { useState } from "react";
+import { SubmitHandler } from "react-hook-form";
 import EditFormController from "src/components/form/EditFormController";
+import { FormController } from "src/components/form/FormController";
+import { useDeleteBox } from "src/services/mutations/deleteOneBox";
+import { useUpdateBox } from "src/services/mutations/updateBox";
+import { GET_BOXES } from "src/services/queries/tags";
+import { MockDataItem } from "src/types";
 
 interface Props {
   item: MockDataItem;
 }
 
-const NoteCard = ({ item }: Props) => {
+const NoteCard = ({ item, index }: Props) => {
   const [isEditing, setIsEditing] = useState(true);
   const queryClient = useQueryClient();
 
