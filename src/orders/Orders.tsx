@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { Task, Column as ColumnType } from "./types";
 import { Column } from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
@@ -39,7 +39,6 @@ export const Orders = () => {
   const [tasks, setTasks] = useState<Task[]>(boxes);
   console.log(tasks);
 
-  if (isFetching) return <div>Loading...</div>;
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
@@ -59,6 +58,7 @@ export const Orders = () => {
       ),
     );
   }
+  useEffect(() => setTasks(boxes), [boxes]);
 
   return (
     <Box
