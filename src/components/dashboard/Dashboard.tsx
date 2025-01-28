@@ -15,7 +15,7 @@ const Dashboard = () => {
   const [searchTerm, setSearchTerm] = useState<String>("");
   const debouncedSearchTerm = useDebounce(searchTerm, 1000);
   const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+  const [itemsPerPage] = useState(20);
 
   const handleSearch = (term: string) => {
     setSearchTerm(term);
@@ -61,7 +61,7 @@ const Dashboard = () => {
           <BoxForm />
         </Grid>
         <Grid item xs={12}>
-          <Card data={(paginatedData, data)} />
+          <Card data={data} />
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>

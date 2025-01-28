@@ -22,6 +22,7 @@ interface MockDataItem {
   usage: string;
   picture?: string;
   storage?: string;
+  status?: string;
 }
 
 const BoxForm: React.FC = () => {
@@ -37,7 +38,8 @@ const BoxForm: React.FC = () => {
       dimension: "",
       usage: "",
       picture: "",
-      storage: "DEFAULT_STORAGE",
+      storage: "Warehouse A",
+      status: "TODO",
     },
   });
 
@@ -53,7 +55,7 @@ const BoxForm: React.FC = () => {
     },
   });
 
-  const onSubmitHandler = (box: any): void => {
+  const onSubmitHandler = (box: MockDataItem): void => {
     addNewBox(box);
   };
   const storageOptions = [
@@ -62,7 +64,7 @@ const BoxForm: React.FC = () => {
     "Storage Room 1",
     "Storage Room 2",
     "External Storage",
-  ];
+  ] as const;
 
   return (
     <Box>
