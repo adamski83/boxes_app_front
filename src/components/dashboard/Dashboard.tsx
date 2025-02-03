@@ -1,25 +1,41 @@
 import "./dashboard.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../card/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { SearchBar } from "../searchBar/SearchBar";
 import { useBoxes } from "src/services/queries/getAllBoxes";
 import { Container, Grid, Pagination } from "@mui/material";
-import { MockDataItem } from "src/types";
 import BoxForm from "../form/AddItemForm";
 import { useDebounce } from "src/helpers/useDebounce";
+import { useBoxStore } from "src/state/store";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
-  const [searchTerm, setSearchTerm] = useState<String>("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
-  const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState(20);
+
+  const {
+    filteredBoxes,
+    page,
+    itemsPerPage,
+    setBoxes,
+    setSearchTerm,
+    setPage,
+  } = useBoxStore();
+  const [searchValue, setSearchValue] = useState("");
+  const debouncedSearch = useDebounce(searchValue, 500);
+
+  useEffect(() => {
+    if (data) {
+      setBoxes(data);
+    }
+  }, [data, setBoxes]);
+
+  useEffect(() => {
+    setSearchTerm(debouncedSearch);
+  }, [debouncedSearch, setSearchTerm]);
 
   const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    setPage(1);
+    setSearchValue(term);
   };
 
   const handlePageChange = (
@@ -29,27 +45,14 @@ const Dashboard = () => {
     setPage(value);
   };
 
-  const filteredData = data
-    ? data.filter((box: MockDataItem) =>
-        box.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()),
-      )
-    : [];
-
-  const paginatedData = filteredData.slice(
+  const paginatedData = filteredBoxes.slice(
     (page - 1) * itemsPerPage,
     page * itemsPerPage,
   );
+  console.log(paginatedData);
 
-  if (error) {
-    return <h2>There was an ERROR</h2>;
-  }
-  if (isLoading) {
-    return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  if (error) return <h2>There was an ERROR</h2>;
+  if (isLoading) return <CircularProgress />;
 
   return (
     <Container>
@@ -61,15 +64,14 @@ const Dashboard = () => {
           <BoxForm />
         </Grid>
         <Grid item xs={12}>
-          <Card data={data} />
+          <Card />
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
             <Pagination
-              count={Math.ceil(filteredData.length / itemsPerPage)}
+              count={Math.ceil(filteredBoxes.length / itemsPerPage)}
               page={page}
               onChange={handlePageChange}
-              color="primary"
             />
           </Box>
         </Grid>

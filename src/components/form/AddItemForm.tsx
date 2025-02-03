@@ -70,7 +70,7 @@ const BoxForm: React.FC = () => {
     <Box>
       <form onSubmit={handleSubmit(onSubmitHandler)}>
         <Stack
-          direction={{ xs: "column", sm: "column", md: "column" }}
+          direction={{ xs: "column", sm: "column", md: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
         >
           <Controller

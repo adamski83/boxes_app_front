@@ -4,7 +4,6 @@ import { Column } from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { Box, Button } from "@mui/material";
 import { useBoxes } from "src/services/queries/getAllBoxes";
-import { clear } from "console";
 
 const COLUMNS: ColumnType[] = [
   { id: "TODO", title: "Lager" },
@@ -52,13 +51,16 @@ export const Orders = () => {
 
   const celarTasks = () => {
     localStorage.removeItem("tasks");
+    setTasks(boxes);
   };
 
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
-      <Button variant="contained" color="primary" onClick={celarTasks}>
-        Clear Tasks List
-      </Button>
+      <Box sx={{ display: "flex", justifyContent: "center", mb: 2, margin: 2 }}>
+        <Button variant="contained" color="primary" onClick={celarTasks}>
+          Clear Tasks List
+        </Button>
+      </Box>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
         <DndContext onDragEnd={handleDragEnd}>
           {COLUMNS?.length && tasks?.length
