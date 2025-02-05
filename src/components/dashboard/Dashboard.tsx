@@ -9,30 +9,14 @@ import { Container, Grid, Pagination } from "@mui/material";
 import BoxForm from "../form/AddItemForm";
 import { useDebounce } from "src/helpers/useDebounce";
 import { useBoxStore } from "src/state/store";
+import { MockDataItem } from "src/types";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
 
-  const {
-    filteredBoxes,
-    page,
-    itemsPerPage,
-    setBoxes,
-    setSearchTerm,
-    setPage,
-  } = useBoxStore();
+  const { boxes, page, itemsPerPage, setPage } = useBoxStore();
   const [searchValue, setSearchValue] = useState("");
-  const debouncedSearch = useDebounce(searchValue, 500);
-
-  useEffect(() => {
-    if (data) {
-      setBoxes(data);
-    }
-  }, [data, setBoxes]);
-
-  useEffect(() => {
-    setSearchTerm(debouncedSearch);
-  }, [debouncedSearch, setSearchTerm]);
+  const debouncedSearch = useDebounce(searchValue, 1000);
 
   const handleSearch = (term: string) => {
     setSearchValue(term);
@@ -45,11 +29,11 @@ const Dashboard = () => {
     setPage(value);
   };
 
-  const paginatedData = filteredBoxes.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage,
-  );
-  console.log(paginatedData);
+  const filteredData = data
+    ? data.filter((box: MockDataItem) =>
+        box.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
+      )
+    : [];
 
   if (error) return <h2>There was an ERROR</h2>;
   if (isLoading) return <CircularProgress />;
@@ -64,12 +48,12 @@ const Dashboard = () => {
           <BoxForm />
         </Grid>
         <Grid item xs={12}>
-          <Card />
+          <Card data={filteredData} />
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
             <Pagination
-              count={Math.ceil(filteredBoxes.length / itemsPerPage)}
+              count={Math.ceil(boxes.length / itemsPerPage)}
               page={page}
               onChange={handlePageChange}
             />
