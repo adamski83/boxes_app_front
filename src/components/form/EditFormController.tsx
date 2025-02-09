@@ -28,6 +28,7 @@ const EditFormController = ({
 }: FormControllerProps) => {
   const { control, handleSubmit } = useForm<MockDataItem>({
     defaultValues: {
+      _id: item._id,
       name: item.name,
       amount: item.amount,
       dimension: item.dimension,
@@ -43,7 +44,8 @@ const EditFormController = ({
     "Storage Room 2",
     "External Storage",
   ];
-  const { _id, amount, name, usage, storage } = item;
+  const { _id = "", amount, name, usage, storage } = item;
+
   return (
     <>
       <Card key={_id}>

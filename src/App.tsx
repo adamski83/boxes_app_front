@@ -19,6 +19,8 @@ import { AuthProvider } from "./components/AuthContext/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { EditBox } from "./components/invoices/EditBox";
 import { Orders } from "./orders/Orders";
+import { create } from "domain";
+import { createPortal } from "react-dom";
 
 const App: React.FC = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);

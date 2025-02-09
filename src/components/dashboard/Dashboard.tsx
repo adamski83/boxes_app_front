@@ -6,50 +6,34 @@ import Box from "@mui/material/Box";
 import { SearchBar } from "../searchBar/SearchBar";
 import { useBoxes } from "src/services/queries/getAllBoxes";
 import { Container, Grid, Pagination } from "@mui/material";
-import { MockDataItem } from "src/types";
 import BoxForm from "../form/AddItemForm";
 import { useDebounce } from "src/helpers/useDebounce";
+import { useBoxStore } from "src/state/store";
+import { MockDataItem } from "src/types";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
-  const [searchTerm, setSearchTerm] = useState<String>("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 1000);
-  const [page, setPage] = useState(1);
-  const [itemsPerPage] = useState(10);
+
+  const { boxes, page, itemsPerPage, setPage } = useBoxStore();
+  const [searchValue, setSearchValue] = useState("");
+  const debouncedSearch = useDebounce(searchValue, 1000);
 
   const handleSearch = (term: string) => {
-    setSearchTerm(term);
-    setPage(1);
+    setSearchValue(term);
   };
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
   const filteredData = data
     ? data.filter((box: MockDataItem) =>
-        box.name.toLowerCase().includes(debouncedSearchTerm.toLowerCase()),
+        box.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
       )
     : [];
 
-  const paginatedData = filteredData.slice(
-    (page - 1) * itemsPerPage,
-    page * itemsPerPage,
-  );
-
-  if (error) {
-    return <h2>There was an ERROR</h2>;
-  }
-  if (isLoading) {
-    return (
-      <Box sx={{ display: "flex" }}>
-        <CircularProgress />
-      </Box>
-    );
-  }
+  if (error) return <h2>There was an ERROR</h2>;
+  if (isLoading) return <CircularProgress />;
 
   return (
     <Container>
@@ -61,15 +45,14 @@ const Dashboard = () => {
           <BoxForm />
         </Grid>
         <Grid item xs={12}>
-          <Card data={(paginatedData, data)} />
+          <Card data={filteredData} />
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
             <Pagination
-              count={Math.ceil(filteredData.length / itemsPerPage)}
+              count={Math.ceil(boxes.length / itemsPerPage)}
               page={page}
               onChange={handlePageChange}
-              color="primary"
             />
           </Box>
         </Grid>
