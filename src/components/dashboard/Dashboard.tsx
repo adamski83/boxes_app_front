@@ -1,5 +1,5 @@
 import "./dashboard.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "../card/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
@@ -22,10 +22,7 @@ const Dashboard = () => {
     setSearchValue(term);
   };
 
-  const handlePageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
+  const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
