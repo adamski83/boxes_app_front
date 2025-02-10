@@ -13,7 +13,7 @@ import {
 import { useAddNewBox } from "src/services/mutations/addNewBox";
 import { useQueryClient } from "@tanstack/react-query";
 import { GET_BOXES } from "src/services/queries/tags";
-
+import { useTranslation } from "react-i18next";
 interface MockDataItem {
   id?: string;
   name: string;
@@ -26,6 +26,7 @@ interface MockDataItem {
 }
 
 const BoxForm: React.FC = () => {
+  const { t } = useTranslation();
   const {
     control,
     handleSubmit,
@@ -76,11 +77,11 @@ const BoxForm: React.FC = () => {
           <Controller
             name="name"
             control={control}
-            rules={{ required: "Name is required" }}
+            rules={{ required: t("form.nameRequired") }}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Item Name"
+                label={t("form.Name")}
                 error={!!errors.name}
                 helperText={errors.name ? errors.name.message : ""}
               />
@@ -90,13 +91,13 @@ const BoxForm: React.FC = () => {
             name="amount"
             control={control}
             rules={{
-              required: "Amount is required",
-              min: { value: 1, message: "Amount must be at least 1" },
+              required: { value: true, message: t("form.amountRequired") },
+              min: { value: 1, message: t("form.amountMin") },
             }}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Item Amount"
+                label={t("form.Amount")}
                 type="number"
                 error={!!errors.amount}
                 helperText={errors.amount ? errors.amount.message : ""}
@@ -115,7 +116,7 @@ const BoxForm: React.FC = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Dimensions (comma separated)"
+                label={t("form.dimensions")}
                 placeholder="e.g. 10,20,30"
                 error={!!errors.dimension}
                 helperText={errors.dimension ? errors.dimension.message : ""}
@@ -125,11 +126,11 @@ const BoxForm: React.FC = () => {
           <Controller
             name="usage"
             control={control}
-            rules={{ required: "Usage is required" }}
+            rules={{ required: t("form.usageRequired") }}
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Item Usage"
+                label={t("form.usage")}
                 error={!!errors.usage}
                 helperText={errors.usage ? errors.usage.message : ""}
               />
@@ -142,7 +143,7 @@ const BoxForm: React.FC = () => {
             render={({ field }) => (
               <TextField
                 {...field}
-                label="Item Picture"
+                label={t("form.picture")}
                 helperText={errors.picture ? errors.picture.message : ""}
               />
             )}
@@ -153,10 +154,10 @@ const BoxForm: React.FC = () => {
             rules={{ required: false }}
             render={({ field }) => (
               <FormControl>
-                <InputLabel>Storage Place</InputLabel>
+                <InputLabel>{t("form.storage")}</InputLabel>
                 <Select
                   {...field}
-                  label="Storage Place"
+                  label={t("form.storage")}
                   error={!!errors.storage}
                 >
                   {storageOptions.map((option) => (
@@ -169,7 +170,7 @@ const BoxForm: React.FC = () => {
             )}
           />
           <Button type="submit" variant="contained" size="medium">
-            Add new Item
+            {t("form.add")}
           </Button>
         </Stack>
       </form>
