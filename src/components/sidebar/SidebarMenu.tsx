@@ -3,36 +3,38 @@ import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
+import { useTranslation } from "react-i18next";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
 
 export const SidebarMenu = ({ onClose }: any) => {
+  const { t } = useTranslation();
   const menuItems = [
     {
       to: "",
       className: "menu1",
       icon: <MenuRoundedIcon onClick={onClose} />,
-      label: <h2>Your Box</h2>,
+      label: <h2>{t("sidebar.menu.title")}</h2>,
     },
     {
       to: "/dashboard",
       icon: <GridViewRoundedIcon onClick={onClose} />,
-      label: "Dashboard",
+      label: <>{t("sidebar.menu.dashboard")}</>,
     },
     {
       to: "/qr-scanner",
       icon: <ReceiptRoundedIcon onClick={onClose} />,
-      label: "QR Scanner",
+      label: <>{t("sidebar.menu.qrScanner")}</>,
     },
     {
       to: "/Invoices",
-      label: "Invoices",
+      label: <>{t("sidebar.menu.invoices")}</>,
       icon: <SettingsApplicationsRoundedIcon onClick={onClose} />,
     },
     {
       to: "/login",
       icon: <LogoutRoundedIcon onClick={onClose} />,
-      label: "Logout",
+      label: <>{t("sidebar.menu.logout")}</>,
     },
   ];
 

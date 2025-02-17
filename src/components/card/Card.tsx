@@ -3,6 +3,7 @@ import "./card.css";
 import NoteCard from "src/noteCard/NoteCard";
 import { MockDataItem } from "src/types";
 import { generatePDF } from "src/helpers/generatePdf";
+import { useTranslation } from "react-i18next";
 
 type CardData = {
   data: MockDataItem[];
@@ -11,11 +12,12 @@ const Card = ({ data }: CardData) => {
   const generateSummaryPDF = () => {
     generatePDF(data);
   };
+  const { t } = useTranslation();
 
   return (
     <Box>
       <Button variant="contained" color="primary" onClick={generateSummaryPDF}>
-        Generate PDF
+        {t("form.generate")}
       </Button>
       <Grid container spacing={1}>
         {data.map((item) => (

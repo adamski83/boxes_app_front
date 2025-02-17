@@ -1,5 +1,5 @@
 import "./dashboard.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Card from "../card/Card";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
@@ -13,8 +13,7 @@ import { MockDataItem } from "src/types";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
-
-  const { boxes, page, itemsPerPage, setPage } = useBoxStore();
+  const { boxes, page, itemsPerPage, setPage, setBoxes } = useBoxStore();
   const [searchValue, setSearchValue] = useState("");
   const debouncedSearch = useDebounce(searchValue, 1000);
 
@@ -26,14 +25,18 @@ const Dashboard = () => {
     setPage(value);
   };
 
-  const filteredData = data
-    ? data.filter((box: MockDataItem) =>
+  const filteredData = boxes?.length
+    ? boxes?.filter((box: MockDataItem) =>
         box.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
       )
     : [];
 
+  useEffect(() => {
+    setBoxes(data);
+  }, [data]);
+
   if (error) return <h2>There was an ERROR</h2>;
-  if (isLoading) return <CircularProgress />;
+  if (isLoading) return <div className="loader"></div>;
 
   return (
     <Container>
@@ -50,7 +53,7 @@ const Dashboard = () => {
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
             <Pagination
-              count={Math.ceil(boxes.length / itemsPerPage)}
+              count={Math.ceil(boxes?.length / itemsPerPage)}
               page={page}
               onChange={handlePageChange}
             />

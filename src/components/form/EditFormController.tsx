@@ -1,32 +1,26 @@
-import Card from "@mui/material/Card";
-import EditIcon from "@mui/icons-material/Edit";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import {
-  Button,
-  IconButton,
-  Stack,
-  TextField,
-  Typography,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-} from "@mui/material";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { useForm, FormProvider } from "react-hook-form";
+import { Card, CardContent, Typography, Stack, Button } from "@mui/material";
+import { FormControllerProps, MockDataItem } from "src/types";
+import { FormInput } from "./FormInput";
+import { FormSelect } from "./FormSelect";
+import { CardHeader } from "./CardHeader";
 
-import { Controller, useForm } from "react-hook-form";
-import { MockDataItem } from "src/types";
-
-import { FormControllerProps } from "src/types";
-
-const EditFormController = ({
+import { useTranslation } from "react-i18next";
+export const STORAGE_OPTIONS = [
+  "Warehouse A",
+  "Warehouse B",
+  "Storage Room 1",
+  "Storage Room 2",
+  "External Storage",
+] as const;
+const EditFormController: React.FC<FormControllerProps> = ({
   onSubmit,
   deleteItemHandler,
   item,
   toggleEdit,
-}: FormControllerProps) => {
-  const { control, handleSubmit } = useForm<MockDataItem>({
+}) => {
+  const { t } = useTranslation();
+  const methods = useForm<MockDataItem>({
     defaultValues: {
       _id: item._id,
       name: item.name,
@@ -36,112 +30,83 @@ const EditFormController = ({
       storage: item.storage,
     },
   });
-  const storageOptions = [
-    "",
-    "Warehouse A",
-    "Warehouse B",
-    "Storage Room 1",
-    "Storage Room 2",
-    "External Storage",
-  ];
-  const { _id = "", amount, name, usage, storage } = item;
 
   return (
     <>
-      <Card key={_id}>
+      <Card>
         <CardHeader
-          action={
-            <>
-              <IconButton onClick={deleteItemHandler(_id)}>
-                <DeleteOutlineIcon />
-              </IconButton>
-              <IconButton onClick={toggleEdit}>
-                <EditIcon />
-              </IconButton>
-            </>
-          }
-          title={name}
+          id={item._id}
+          name={item.name}
+          onDelete={deleteItemHandler}
+          onEdit={toggleEdit}
         />
         <CardContent>
           <Typography variant="body2" color="textSecondary">
-            {/* {modifedDimension} */}
+            {item.usage}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {usage}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {amount}
+            {item.amount}
           </Typography>
         </CardContent>
       </Card>
-      <form onSubmit={handleSubmit(onSubmit)} style={{ marginTop: 20 }}>
-        <Stack
-          direction={{ xs: "column", sm: "column", md: "column" }}
-          spacing={{ xs: 1, sm: 2, md: 4 }}
+
+      <FormProvider {...methods}>
+        <form
+          onSubmit={methods.handleSubmit(onSubmit)}
+          style={{ marginTop: 20 }}
         >
-          <Controller
-            name="name"
-            control={control}
-            render={({ field }) => <TextField {...field} label="Item Name" />}
-          />
-          <Controller
-            name="amount"
-            control={control}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Item Amount"
-                type="number"
-                inputProps={{ min: 0 }}
-              />
-            )}
-          />
-          <Controller
-            name="dimension"
-            control={control}
-            rules={{ min: 0 }}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Dimensions (comma separated)"
-                placeholder="e.g. 10,20,30"
-              />
-            )}
-          />
-          <Controller
-            name="usage"
-            control={control}
-            render={({ field }) => <TextField {...field} label="Item Usage" />}
-          />
-          <Controller
-            name="picture"
-            control={control}
-            render={({ field }) => (
-              <TextField {...field} label="Item Picture" />
-            )}
-          />
-          <Controller
-            name="storage"
-            control={control}
-            rules={{ required: false }}
-            render={({ field }) => (
-              <FormControl fullWidth>
-                <InputLabel>Storage Place</InputLabel>
-                <Select {...field} label="Storage Place">
-                  {storageOptions.map((option) => (
-                    <MenuItem key={option} value={option}>
-                      {option}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
-          />
-          <Button type="submit" variant="contained" size="medium">
-            Edit
-          </Button>
-        </Stack>
-      </form>
+          <Stack
+            direction={{ xs: "column", sm: "column", md: "column" }}
+            spacing={{ xs: 1, sm: 2, md: 4 }}
+          >
+            <FormInput
+              name="name"
+              label={t("form.Name")}
+              rules={{ required: t("form.nameRequired") }}
+            />
+
+            <FormInput
+              name="amount"
+              label={t("form.Amount")}
+              type="number"
+              rules={{
+                required: t("form.amountRequired"),
+                min: { value: 1, message: t("form.amountMin") },
+              }}
+            />
+
+            <FormInput
+              name="dimension"
+              label={t("form.dimensions")}
+              placeholder="e.g. 10,20,30"
+              rules={{
+                pattern: {
+                  value: /^\d+,\d+,\d+$/,
+                  message: t("form.dimensionsFormat"),
+                },
+              }}
+            />
+
+            <FormInput
+              name="usage"
+              label={t("form.usage")}
+              rules={{ required: t("form.usageRequired") }}
+            />
+
+            <FormInput name="picture" label={t("form.picture")} />
+
+            <FormSelect
+              name="storage"
+              label={t("form.storage")}
+              options={STORAGE_OPTIONS}
+            />
+
+            <Button type="submit" variant="contained" size="medium">
+              {t("form.edit")}
+            </Button>
+          </Stack>
+        </form>
+      </FormProvider>
     </>
   );
 };
