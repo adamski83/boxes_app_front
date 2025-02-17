@@ -7,7 +7,9 @@ export const en = {
   storage: "Storage Place",
   add: "Add new item",
   nameRequired: "Name is required",
-  amountRequired: "amount is required",
-  amountMin: "amount must be greater than 0",
-  usageRequired: "usage is required",
+  amountRequired: "Amount is required",
+  amountMin: "Amount must be greater than 0",
+  usageRequired: "Usage is required",
+  edit: "Edit",
+  generate: "Generate PDF",
 };

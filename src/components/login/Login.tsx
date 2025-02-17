@@ -13,8 +13,11 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { FormFields } from "../register/Register";
 import { useUserLogin } from "src/services/mutations/loginUserApi";
 import { useAuth } from "../AuthContext/AuthContext";
+import { useTranslation } from "react-i18next";
+import { loginTranslations } from "./loginTranslation";
 
 export const Login = () => {
+  const { t } = useTranslation();
   const login = useAuth();
   const {
     register,
@@ -58,7 +61,7 @@ export const Login = () => {
               },
             })}
             autoComplete=""
-            placeholder="🙋  Type your username"
+            placeholder={`🙋${t("login.name")}`}
             className="login__input"
           />
           {errors.username && <Error>{errors.username.message}</Error>}
@@ -71,7 +74,7 @@ export const Login = () => {
               },
             })}
             autoComplete=""
-            placeholder="🔐  Type your password"
+            placeholder={`🔐${t("login.password")}`}
             type="password"
             className="login__input"
           />

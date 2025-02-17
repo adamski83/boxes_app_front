@@ -5,9 +5,11 @@ export const pl = {
   usage: "Zastosowanie",
   picture: "Zdjęcie",
   storage: "Miejsce przechowywania",
-  add: "dodaj nowe opakowanie",
+  add: "Dodaj nowe opakowanie",
   nameRequired: "Nazwa jest wymagana",
   amountRequired: "Ilość jest wymagana",
   amountMin: "Ilość musi być większa niż 0",
   usageRequired: "Zastosowanie jest wymagane",
+  edit: "Edytuj",
+  generate: "Generuj PDF",
 };
