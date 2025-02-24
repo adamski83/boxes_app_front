@@ -1,4 +1,4 @@
-export interface FormFields {
+export interface AddFormFields {
   id?: string;
   name: string;
   amount: number;
@@ -9,8 +9,8 @@ export interface FormFields {
   status?: string;
 }
 
-export interface FormProps {
-  initialValues?: Partial<FormFields>;
-  onSubmit: (data: FormFields) => void;
+export interface AddFormProps {
+  initialValues?: Partial<AddFormFields>;
+  onSubmit: (data: AddFormFields) => void;
   isEdit?: boolean;
 }

@@ -1,9 +1,9 @@
-import { useForm, FormProvider } from "react-hook-form";
-import { Card, CardContent, Typography, Stack, Button } from "@mui/material";
+import { Button, Card, CardContent, Stack, Typography } from "@mui/material";
+import { FormProvider, useForm } from "react-hook-form";
 import { FormControllerProps, MockDataItem } from "src/types";
-import { FormInput } from "./FormInput";
-import { FormSelect } from "./FormSelect";
+import { FormInput } from "./AddFormInput";
 import { CardHeader } from "./CardHeader";
+import { FormSelect } from "./FormSelect";
 
 import { useTranslation } from "react-i18next";
 export const STORAGE_OPTIONS = [
@@ -61,13 +61,13 @@ const EditFormController: React.FC<FormControllerProps> = ({
           >
             <FormInput
               name="name"
-              label={t("form.Name")}
+              label={t("form.name")}
               rules={{ required: t("form.nameRequired") }}
             />
 
             <FormInput
               name="amount"
-              label={t("form.Amount")}
+              label={t("form.amount")}
               type="number"
               rules={{
                 required: t("form.amountRequired"),

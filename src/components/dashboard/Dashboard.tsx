@@ -1,15 +1,15 @@
-import "./dashboard.css";
-import { useEffect, useState } from "react";
-import Card from "../card/Card";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import { SearchBar } from "../searchBar/SearchBar";
-import { useBoxes } from "src/services/queries/getAllBoxes";
 import { Container, Grid, Pagination } from "@mui/material";
-import BoxForm from "../form/AddItemForm";
-import { useDebounce } from "src/helpers/useDebounce";
-import { useBoxStore } from "src/state/store";
+import Box from "@mui/material/Box";
+import { useEffect, useState } from "react";
+import { useDebounce } from "src/Helpers/useDebounce";
+import { useBoxes } from "src/services/queries/getAllBoxes";
+import { useBoxStore } from "src/State/store";
 import { MockDataItem } from "src/types";
+import Card from "../Card/Card";
+import BoxForm from "../Form/AddItemForm";
+import { SearchBar } from "../SearchBar/SearchBar";
+import "./dashboard.css";
+import { Loader } from "../Loader/Loader";
 
 const Dashboard = () => {
   const { data, error, isLoading } = useBoxes();
@@ -36,7 +36,8 @@ const Dashboard = () => {
   }, [data]);
 
   if (error) return <h2>There was an ERROR</h2>;
-  if (isLoading) return <div className="loader"></div>;
+  if (isLoading) return <Loader />;
+  const pagination = Math.ceil(boxes?.length / itemsPerPage);
 
   return (
     <Container>
@@ -53,7 +54,7 @@ const Dashboard = () => {
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
             <Pagination
-              count={Math.ceil(boxes?.length / itemsPerPage)}
+              count={pagination}
               page={page}
               onChange={handlePageChange}
             />

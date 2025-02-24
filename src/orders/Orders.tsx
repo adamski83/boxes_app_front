@@ -15,8 +15,8 @@ export const Orders = () => {
   });
 
   const COLUMNS: ColumnType[] = [
-    { id: "TODO" as Task["status"], title: t("orders.warehous") },
-    { id: "IN_PROGRESS" as Task["status"], title: t("orders.orders") },
+    { id: "TODO" as Task["status"], title: t("orders.status.warehous") },
+    { id: "IN_PROGRESS" as Task["status"], title: t("orders.status.orders") },
   ];
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export const Orders = () => {
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2, margin: 2 }}>
         <Button variant="contained" color="primary" onClick={celarTasks}>
-          {t("orders.clearTasksList")}
+          {t("orders.status.clearTasksList")}
         </Button>
       </Box>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>

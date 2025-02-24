@@ -1,4 +1,3 @@
-import "./login.css";
 import {
   Box,
   Button,
@@ -7,14 +6,14 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import toast from "react-hot-toast";
-import { Error } from "../error/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FormFields } from "../register/Register";
-import { useUserLogin } from "src/services/mutations/loginUserApi";
-import { useAuth } from "../AuthContext/AuthContext";
+import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { loginTranslations } from "./loginTranslation";
+import { useUserLogin } from "src/services/mutations/loginUserApi";
+import { useAuth } from "../Auth/AuthContext/AuthContext";
+import { Error } from "../Error/Error";
+import { FormFields } from "../Register/Register";
+import "./login.css";
 
 export const Login = () => {
   const { t } = useTranslation();
@@ -40,7 +39,7 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<FormFields> = (data, e) => {
     loginUser(data);
-    login.login();
+    login.login(data.token); //Czy to zadziała? sprawdzić w przyszłości!!!!!
     e?.target.reset();
   };
 
@@ -85,7 +84,7 @@ export const Login = () => {
             type="submit"
             sx={{ fontSize: 14 }}
           >
-            Login
+            {t("login.submit")}
           </Button>
         </Box>
       </form>

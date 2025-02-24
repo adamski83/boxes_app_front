@@ -1,12 +1,12 @@
-import { useForm, FormProvider } from "react-hook-form";
-import { Button, Stack, Box } from "@mui/material";
-import { FormInput } from "./FormInput";
-import { FormSelect } from "./FormSelect";
-import { useTranslation } from "react-i18next";
-import { MockDataItem } from "src/types";
-import { useAddNewBox } from "src/services/mutations/addNewBox";
+import { Box, Button, Stack } from "@mui/material";
 import { useQueryClient } from "@tanstack/react-query";
+import { FormProvider, useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
+import { useAddNewBox } from "src/services/mutations/addNewBox";
 import { GET_BOXES } from "src/services/queries/tags";
+import { MockDataItem } from "src/types";
+import { FormInput } from "./AddFormInput";
+import { FormSelect } from "./FormSelect";
 
 const storageOptions = [
   "Warehouse A",
@@ -55,7 +55,7 @@ const BoxForm: React.FC = () => {
           >
             <FormInput
               name="name"
-              label={t("form.Name")}
+              label={t("form.name")}
               rules={{ required: t("form.nameRequired") }}
             />
 

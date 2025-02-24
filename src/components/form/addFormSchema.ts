@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const formSchema = z.object({
+export const addFormSchema = z.object({
   name: z
     .string()
     .min(1, "Nazwa jest wymagana")
@@ -36,4 +36,4 @@ export const formSchema = z.object({
   status: z.enum(["TODO", "IN_PROGRESS"]).default("TODO"),
 });
 
-export type FormFields = z.infer<typeof formSchema>;
+export type FormFields = z.infer<typeof addFormSchema>;
