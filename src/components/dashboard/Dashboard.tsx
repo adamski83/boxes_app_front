@@ -1,5 +1,6 @@
 import { Container, Grid, Pagination } from "@mui/material";
 import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { useDebounce } from "src/Helpers/useDebounce";
 import { useBoxes } from "src/services/queries/getAllBoxes";
@@ -12,6 +13,7 @@ import "./dashboard.css";
 import { Loader } from "../Loader/Loader";
 
 const Dashboard = () => {
+  const theme = useTheme();
   const { data, error, isLoading } = useBoxes();
   const { boxes, page, itemsPerPage, setPage, setBoxes } = useBoxStore();
   const [searchValue, setSearchValue] = useState("");
@@ -40,7 +42,15 @@ const Dashboard = () => {
   const pagination = Math.ceil(boxes?.length / itemsPerPage);
 
   return (
-    <Container>
+    <Container
+      sx={{
+        backgroundColor: theme.palette.custom.cardBg,
+        borderColor: theme.palette.custom.borderColor,
+        "&:hover": {
+          backgroundColor: theme.palette.custom.hoverBg,
+        },
+      }}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} marginTop={3}>
           <SearchBar onSearch={handleSearch} />

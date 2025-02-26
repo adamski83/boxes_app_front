@@ -6,6 +6,8 @@ import { CardHeader } from "./CardHeader";
 import { FormSelect } from "./FormSelect";
 
 import { useTranslation } from "react-i18next";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createBoxSchema } from "./BoxValidation";
 export const STORAGE_OPTIONS = [
   "Warehouse A",
   "Warehouse B",
@@ -21,6 +23,7 @@ const EditFormController: React.FC<FormControllerProps> = ({
 }) => {
   const { t } = useTranslation();
   const methods = useForm<MockDataItem>({
+    resolver: zodResolver(createBoxSchema()),
     defaultValues: {
       _id: item._id,
       name: item.name,

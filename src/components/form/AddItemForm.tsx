@@ -7,6 +7,8 @@ import { GET_BOXES } from "src/services/queries/tags";
 import { MockDataItem } from "src/types";
 import { FormInput } from "./AddFormInput";
 import { FormSelect } from "./FormSelect";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { createBoxSchema } from "./BoxValidation";
 
 const storageOptions = [
   "Warehouse A",
@@ -19,6 +21,7 @@ const storageOptions = [
 const BoxForm: React.FC = () => {
   const { t } = useTranslation();
   const methods = useForm<MockDataItem>({
+    resolver: zodResolver(createBoxSchema()),
     defaultValues: {
       name: "",
       amount: 0,
@@ -53,39 +56,17 @@ const BoxForm: React.FC = () => {
             direction={{ xs: "column", sm: "column", md: "row" }}
             spacing={{ xs: 1, sm: 2, md: 4 }}
           >
-            <FormInput
-              name="name"
-              label={t("form.name")}
-              rules={{ required: t("form.nameRequired") }}
-            />
+            <FormInput name="name" label={t("form.name")} />
 
-            <FormInput
-              name="amount"
-              label={t("form.Amount")}
-              type="number"
-              rules={{
-                required: t("form.amountRequired"),
-                min: { value: 1, message: t("form.amountMin") },
-              }}
-            />
+            <FormInput name="amount" label={t("form.amount")} type="number" />
 
             <FormInput
               name="dimension"
               label={t("form.dimensions")}
               placeholder="e.g. 10,20,30"
-              rules={{
-                pattern: {
-                  value: /^\d+,\d+,\d+$/,
-                  message: t("form.dimensionsFormat"),
-                },
-              }}
             />
 
-            <FormInput
-              name="usage"
-              label={t("form.usage")}
-              rules={{ required: t("form.usageRequired") }}
-            />
+            <FormInput name="usage" label={t("form.usage")} />
 
             <FormInput name="picture" label={t("form.picture")} />
 

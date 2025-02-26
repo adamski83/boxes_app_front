@@ -1,8 +1,10 @@
 // src/theme/ThemeContext.jsx
-import React, { createContext, useMemo, useState, useEffect } from "react";
+import { createContext, useMemo, useState, useEffect } from "react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { PaletteMode } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ReactNode } from "react";
+import { lightPalette, darkPalette } from "./palette";
 
 export const ColorModeContext = createContext({
   toggleColorMode: () => {},
@@ -10,7 +12,7 @@ export const ColorModeContext = createContext({
 });
 
 export const ThemeProviderWrapper = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useState(() => {
+  const [mode, setMode] = useState<PaletteMode>(() => {
     const savedMode = localStorage.getItem("themeMode");
     return savedMode === "dark" ? "dark" : "light";
   });
@@ -22,7 +24,9 @@ export const ThemeProviderWrapper = ({ children }: { children: ReactNode }) => {
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode((prevMode) => (prevMode === "light" ? "dark" : "light"));
+        setMode((prevMode: string) =>
+          prevMode === "light" ? "dark" : "light",
+        );
       },
       mode,
     }),
@@ -34,24 +38,36 @@ export const ThemeProviderWrapper = ({ children }: { children: ReactNode }) => {
       createTheme({
         palette: {
           mode,
-
-          ...(mode === "light"
-            ? {
-                primary: {
-                  main: "#1976d2",
-                  light: "#42a5f5",
-                  dark: "#1565c0",
-                  contrastText: "#ffffff",
+          ...(mode === "light" ? lightPalette : darkPalette),
+        },
+        components: {
+          MuiCard: {
+            styleOverrides: {
+              root: {
+                backgroundColor:
+                  mode === "light"
+                    ? lightPalette.custom.cardBg
+                    : darkPalette.custom.cardBg,
+                borderColor:
+                  mode === "light"
+                    ? lightPalette.custom.borderColor
+                    : darkPalette.custom.borderColor,
+              },
+            },
+          },
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                borderRadius: 8,
+                "&:hover": {
+                  backgroundColor:
+                    mode === "light"
+                      ? lightPalette.custom.hoverBg
+                      : darkPalette.custom.hoverBg,
                 },
-              }
-            : {
-                primary: {
-                  main: "#90caf9",
-                  light: "#e3f2fd",
-                  dark: "#42a5f5",
-                  contrastText: "#000000",
-                },
-              }),
+              },
+            },
+          },
         },
       }),
     [mode],
