@@ -1,84 +1,79 @@
-// src/theme/ThemeContext.jsx
-import { createContext, useMemo, useState, useEffect } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { PaletteMode } from "@mui/material";
-import CssBaseline from "@mui/material/CssBaseline";
-import { ReactNode } from "react";
+import React, { createContext, useState, useMemo, ReactNode } from "react";
+import { CssBaseline, ThemeProvider as MuiThemeProvider } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 import { lightPalette, darkPalette } from "./palette";
 
-export const ColorModeContext = createContext({
+export enum ThemeMode {
+  LIGHT = "light",
+  DARK = "dark",
+}
+
+interface ColorModeContextType {
+  toggleColorMode: () => void;
+  mode: ThemeMode;
+}
+
+export const ColorModeContext = createContext<ColorModeContextType>({
   toggleColorMode: () => {},
-  mode: "light",
+  mode: ThemeMode.LIGHT,
 });
 
-export const ThemeProviderWrapper = ({ children }: { children: ReactNode }) => {
-  const [mode, setMode] = useState<PaletteMode>(() => {
+export const ThemeProviderWrapper: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [mode, setMode] = useState<ThemeMode>(() => {
     const savedMode = localStorage.getItem("themeMode");
-    return savedMode === "dark" ? "dark" : "light";
+    return savedMode === ThemeMode.DARK ? ThemeMode.DARK : ThemeMode.LIGHT;
   });
 
-  useEffect(() => {
-    localStorage.setItem("themeMode", mode);
-  }, [mode]);
-
-  const colorMode = useMemo(
-    () => ({
-      toggleColorMode: () => {
-        setMode((prevMode: string) =>
-          prevMode === "light" ? "dark" : "light",
-        );
-      },
-      mode,
-    }),
-    [mode],
-  );
+  const toggleColorMode = () => {
+    const newMode = mode === ThemeMode.LIGHT ? ThemeMode.DARK : ThemeMode.LIGHT;
+    localStorage.setItem("themeMode", newMode);
+    setMode(newMode);
+  };
 
   const theme = useMemo(
     () =>
       createTheme({
         palette: {
-          mode,
-          ...(mode === "light" ? lightPalette : darkPalette),
+          mode: mode === ThemeMode.LIGHT ? "light" : "dark",
+          ...(mode === ThemeMode.LIGHT ? lightPalette : darkPalette),
         },
         components: {
           MuiCard: {
             styleOverrides: {
               root: {
                 backgroundColor:
-                  mode === "light"
+                  mode === ThemeMode.LIGHT
                     ? lightPalette.custom.cardBg
                     : darkPalette.custom.cardBg,
                 borderColor:
-                  mode === "light"
+                  mode === ThemeMode.LIGHT
                     ? lightPalette.custom.borderColor
                     : darkPalette.custom.borderColor,
               },
             },
           },
-          MuiButton: {
-            styleOverrides: {
-              root: {
-                borderRadius: 8,
-                "&:hover": {
-                  backgroundColor:
-                    mode === "light"
-                      ? lightPalette.custom.hoverBg
-                      : darkPalette.custom.hoverBg,
-                },
-              },
-            },
-          },
+          // ...pozostałe komponenty
         },
       }),
     [mode],
   );
 
+  const contextValue = useMemo(
+    () => ({
+      toggleColorMode,
+      mode,
+    }),
+    [mode],
+  );
+
   return (
-    <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
+    <ColorModeContext.Provider value={contextValue}>
+      <MuiThemeProvider theme={theme}>
         <CssBaseline />
         {children}
-      </ThemeProvider>
+      </MuiThemeProvider>
     </ColorModeContext.Provider>
   );
 };

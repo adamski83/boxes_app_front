@@ -12,7 +12,7 @@ interface Props {
   item: MockDataItem;
 }
 
-const NoteCard = ({ item, index }: Props) => {
+const NoteCard = ({ item }: Props) => {
   const [isEditing, setIsEditing] = useState(true);
   const queryClient = useQueryClient();
 

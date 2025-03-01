@@ -1,5 +1,12 @@
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
-import { useFormContext } from "react-hook-form";
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText,
+} from "@mui/material";
+import { useFormContext, Controller } from "react-hook-form";
+import { useId } from "react";
 
 interface FormSelectProps {
   name: string;
@@ -8,21 +15,32 @@ interface FormSelectProps {
 }
 
 export const FormSelect = ({ name, label, options }: FormSelectProps) => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
+  const { control } = useFormContext();
+  const id = useId();
 
   return (
-    <FormControl fullWidth error={!!errors[name]}>
-      <InputLabel>{label}</InputLabel>
-      <Select {...register(name)} label={label}>
-        {options.map((option) => (
-          <MenuItem key={option} value={option}>
-            {option}
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <FormControl fullWidth error={!!error}>
+          <InputLabel id={`${id}-${name}-label`}>{label}</InputLabel>
+          <Select
+            {...field}
+            labelId={`${id}-${name}-label`}
+            id={`${id}-${name}`}
+            value={field.value || ""}
+            label={label}
+          >
+            {options.map((option) => (
+              <MenuItem key={option} value={option}>
+                {option}
+              </MenuItem>
+            ))}
+          </Select>
+          {error && <FormHelperText>{error.message}</FormHelperText>}
+        </FormControl>
+      )}
+    />
   );
 };

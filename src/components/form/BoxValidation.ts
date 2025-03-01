@@ -14,11 +14,6 @@ export const createBoxSchema = () => {
       .string()
       .min(1, t("form.validation.amountMin"))
       .max(1000, t("form.amountMax")),
-
-    dimension: z
-      .string()
-      .regex(/^\d+,\d+,\d+$/, t("form.validation.dimensionsFormat")),
-
     usage: z
       .string()
       .min(1, t("form.validation.usageRequired"))

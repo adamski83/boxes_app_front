@@ -8,6 +8,7 @@ import {
 
 const UpdateBox = async (data: MockDataItem) => {
   const response = await axiosInstance.put(`/api/box/${data._id}`, data);
+  console.log(data);
   return response.data;
 };
 

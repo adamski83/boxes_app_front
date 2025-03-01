@@ -1,25 +1,42 @@
-import { TextField, TextFieldProps } from "@mui/material";
-import { useFormContext } from "react-hook-form";
+import { TextField } from "@mui/material";
+import { useFormContext, Controller } from "react-hook-form";
+import { useId } from "react";
 
-interface FormInputProps extends Omit<TextFieldProps, "name"> {
+interface FormInputProps {
   name: string;
   label: string;
-  rules?: object;
+  autoComplete?: string;
+  type?: string;
+  placeholder?: string;
 }
 
-export const FormInput = ({ name, label, rules, ...rest }: FormInputProps) => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext();
+export const FormInput = ({
+  name,
+  label,
+  autoComplete,
+  type = "text",
+  placeholder,
+}: FormInputProps) => {
+  const { control } = useFormContext();
+  const id = useId();
 
   return (
-    <TextField
-      {...register(name, rules)}
-      label={label}
-      error={!!errors[name]}
-      helperText={errors[name]?.message as string}
-      {...rest}
+    <Controller
+      name={name}
+      control={control}
+      render={({ field, fieldState: { error } }) => (
+        <TextField
+          {...field}
+          id={`${id}-${name}`}
+          label={label}
+          autoComplete={autoComplete}
+          type={type}
+          placeholder={placeholder}
+          error={!!error}
+          helperText={error?.message}
+          fullWidth
+        />
+      )}
     />
   );
 };

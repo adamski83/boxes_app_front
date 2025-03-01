@@ -25,9 +25,7 @@ const BoxForm: React.FC = () => {
     defaultValues: {
       name: "",
       amount: 0,
-      dimension: "",
       usage: "",
-      picture: "",
       storage: "Warehouse A",
       status: "TODO",
     },
@@ -37,7 +35,13 @@ const BoxForm: React.FC = () => {
   const { mutate: addNewBox } = useAddNewBox({
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: [GET_BOXES] });
-      methods.reset();
+      methods.reset({
+        name: "",
+        amount: 0,
+        usage: "",
+        storage: "Warehouse A", // Ważne! Ustaw ponownie wartość domyślną
+        status: "TODO",
+      });
     },
     onError: (error) => {
       console.error("Error adding box:", error);
@@ -56,26 +60,19 @@ const BoxForm: React.FC = () => {
             direction={{ xs: "column", sm: "column", md: "row" }}
             spacing={{ xs: 1, sm: 2, md: 4 }}
           >
-            <FormInput name="name" label={t("form.name")} />
-
-            <FormInput name="amount" label={t("form.amount")} type="number" />
-
+            <FormInput autoComplete="on" name="name" label={t("form.name")} />
             <FormInput
-              name="dimension"
-              label={t("form.dimensions")}
-              placeholder="e.g. 10,20,30"
+              autoComplete="on"
+              name="amount"
+              label={t("form.amount")}
+              type="number"
             />
-
-            <FormInput name="usage" label={t("form.usage")} />
-
-            <FormInput name="picture" label={t("form.picture")} />
-
+            <FormInput autoComplete="on" name="usage" label={t("form.usage")} />
             <FormSelect
               name="storage"
               label={t("form.storage")}
               options={storageOptions}
             />
-
             <Button type="submit" variant="contained" size="medium">
               {t("form.add")}
             </Button>

@@ -6,7 +6,7 @@ interface CardHeaderProps {
   id: string | undefined;
   name: string;
   onDelete: (id: string) => void;
-  onEdit: () => void;
+  onEdit: (id: string) => void;
 }
 
 export const CardHeader: React.FC<CardHeaderProps> = ({

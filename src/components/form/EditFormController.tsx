@@ -4,10 +4,7 @@ import { FormControllerProps, MockDataItem } from "src/types";
 import { FormInput } from "./AddFormInput";
 import { CardHeader } from "./CardHeader";
 import { FormSelect } from "./FormSelect";
-
 import { useTranslation } from "react-i18next";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { createBoxSchema } from "./BoxValidation";
 export const STORAGE_OPTIONS = [
   "Warehouse A",
   "Warehouse B",
@@ -16,14 +13,13 @@ export const STORAGE_OPTIONS = [
   "External Storage",
 ] as const;
 const EditFormController: React.FC<FormControllerProps> = ({
-  onSubmit,
+  onSubmit = () => {},
   deleteItemHandler,
   item,
   toggleEdit,
 }) => {
   const { t } = useTranslation();
   const methods = useForm<MockDataItem>({
-    resolver: zodResolver(createBoxSchema()),
     defaultValues: {
       _id: item._id,
       name: item.name,
@@ -33,6 +29,10 @@ const EditFormController: React.FC<FormControllerProps> = ({
       storage: item.storage,
     },
   });
+
+  const onSubmitWithId = (data: MockDataItem) => {
+    onSubmit({ ...data, _id: item._id });
+  };
 
   return (
     <>
@@ -55,7 +55,7 @@ const EditFormController: React.FC<FormControllerProps> = ({
 
       <FormProvider {...methods}>
         <form
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={methods.handleSubmit(onSubmitWithId)}
           style={{ marginTop: 20 }}
         >
           <Stack
@@ -63,12 +63,14 @@ const EditFormController: React.FC<FormControllerProps> = ({
             spacing={{ xs: 1, sm: 2, md: 4 }}
           >
             <FormInput
+              autoComplete="on"
               name="name"
               label={t("form.name")}
               rules={{ required: t("form.nameRequired") }}
             />
 
             <FormInput
+              autoComplete="on"
               name="amount"
               label={t("form.amount")}
               type="number"
@@ -77,27 +79,12 @@ const EditFormController: React.FC<FormControllerProps> = ({
                 min: { value: 1, message: t("form.amountMin") },
               }}
             />
-
             <FormInput
-              name="dimension"
-              label={t("form.dimensions")}
-              placeholder="e.g. 10,20,30"
-              rules={{
-                pattern: {
-                  value: /^\d+,\d+,\d+$/,
-                  message: t("form.dimensionsFormat"),
-                },
-              }}
-            />
-
-            <FormInput
+              autoComplete="on"
               name="usage"
               label={t("form.usage")}
               rules={{ required: t("form.usageRequired") }}
             />
-
-            <FormInput name="picture" label={t("form.picture")} />
-
             <FormSelect
               name="storage"
               label={t("form.storage")}

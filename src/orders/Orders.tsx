@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 export const Orders = () => {
   const { t } = useTranslation();
   const { data: boxes } = useBoxes();
+
   const [tasks, setTasks] = useState<Task[]>(() => {
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : boxes;
@@ -46,14 +47,14 @@ export const Orders = () => {
   }
 
   useEffect(() => {
-    if (boxes && !localStorage.getItem("tasks")) {
+    if (boxes?.data && !localStorage.getItem("tasks")) {
       setTasks(boxes);
     }
-  }, [boxes]);
+  }, [boxes?.data]);
 
   const celarTasks = () => {
     localStorage.removeItem("tasks");
-    setTasks(boxes);
+    setTasks(boxes?.data);
   };
 
   return (
