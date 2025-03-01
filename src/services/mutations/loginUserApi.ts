@@ -1,10 +1,10 @@
-import { FormFields } from "src/components/register/Register";
-import { axiosInstance } from "../apiClient";
 import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
 } from "@tanstack/react-query";
+import { FormFields } from "src/components/Register/Register";
+import { axiosInstance } from "../apiClient";
 
 const loginUserApi = async (data: FormFields) => {
   const response = await axiosInstance.post("/user/login", data);

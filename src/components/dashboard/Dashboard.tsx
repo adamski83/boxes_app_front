@@ -1,42 +1,60 @@
-import "./dashboard.css";
-import { useState } from "react";
-import Card from "../card/Card";
-import CircularProgress from "@mui/material/CircularProgress";
-import Box from "@mui/material/Box";
-import { SearchBar } from "../searchBar/SearchBar";
-import { useBoxes } from "src/services/queries/getAllBoxes";
 import { Container, Grid, Pagination } from "@mui/material";
-import BoxForm from "../form/AddItemForm";
-import { useDebounce } from "src/helpers/useDebounce";
-import { useBoxStore } from "src/state/store";
-import { MockDataItem } from "src/types";
+import Box from "@mui/material/Box";
+import { useTheme } from "@mui/material/styles";
+import { useEffect } from "react";
+import { useBoxes } from "src/services/queries/getAllBoxes";
+import { useBoxStore } from "src/State/store";
+import Card from "../Card/Card";
+import BoxForm from "../Form/AddItemForm";
+import { SearchBar } from "../SearchBar/SearchBar";
+import "./dashboard.css";
+import { Loader } from "../Loader/Loader";
 
 const Dashboard = () => {
+  const theme = useTheme();
   const { data, error, isLoading } = useBoxes();
 
-  const { boxes, page, itemsPerPage, setPage } = useBoxStore();
-  const [searchValue, setSearchValue] = useState("");
-  const debouncedSearch = useDebounce(searchValue, 1000);
+  const {
+    setBoxes,
+    setSearchTerm,
+    getCurrentPageBoxes,
+    getTotalPages,
+    page,
+    setPage,
+  } = useBoxStore();
+
+  // Pobierz tylko boxy dla aktualnej strony
+  const currentPageBoxes = getCurrentPageBoxes();
+  // Pobierz całkowitą liczbę stron
+  const totalPages = getTotalPages();
 
   const handleSearch = (term: string) => {
-    setSearchValue(term);
+    setSearchTerm(term);
   };
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
   };
 
-  const filteredData = data
-    ? data.filter((box: MockDataItem) =>
-        box.name.toLowerCase().includes(debouncedSearch.toLowerCase()),
-      )
-    : [];
+  useEffect(() => {
+    if (data?.data) {
+      setBoxes(data.data);
+    }
+  }, [data?.data, setBoxes]);
 
   if (error) return <h2>There was an ERROR</h2>;
-  if (isLoading) return <CircularProgress />;
+  if (isLoading) return <Loader />;
 
   return (
-    <Container>
+    <Container
+      sx={{
+        backgroundColor: theme.palette.custom.cardBg,
+        borderColor: theme.palette.custom.borderColor,
+        "&:hover": {
+          backgroundColor: theme.palette.custom.hoverBg,
+        },
+      }}
+    >
       <Grid container spacing={2}>
         <Grid item xs={12} marginTop={3}>
           <SearchBar onSearch={handleSearch} />
@@ -45,15 +63,17 @@ const Dashboard = () => {
           <BoxForm />
         </Grid>
         <Grid item xs={12}>
-          <Card data={filteredData} />
+          <Card data={currentPageBoxes} />
         </Grid>
         <Grid item xs={12}>
           <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
-            <Pagination
-              count={Math.ceil(boxes.length / itemsPerPage)}
-              page={page}
-              onChange={handlePageChange}
-            />
+            {totalPages > 0 && (
+              <Pagination
+                count={totalPages}
+                page={page}
+                onChange={handlePageChange}
+              />
+            )}
           </Box>
         </Grid>
       </Grid>

@@ -1,8 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { SubmitHandler } from "react-hook-form";
-import EditFormController from "src/components/form/EditFormController";
-import { FormController } from "src/components/form/FormController";
+import EditFormController from "src/components/Form/EditFormController";
+import { FormController } from "src/components/Form/FormController";
 import { useDeleteBox } from "src/services/mutations/deleteOneBox";
 import { useUpdateBox } from "src/services/mutations/updateBox";
 import { GET_BOXES } from "src/services/queries/tags";
@@ -12,7 +12,7 @@ interface Props {
   item: MockDataItem;
 }
 
-const NoteCard = ({ item, index }: Props) => {
+const NoteCard = ({ item }: Props) => {
   const [isEditing, setIsEditing] = useState(true);
   const queryClient = useQueryClient();
 

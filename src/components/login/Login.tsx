@@ -1,4 +1,3 @@
-import "./login.css";
 import {
   Box,
   Button,
@@ -7,14 +6,17 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import toast from "react-hot-toast";
-import { Error } from "../error/Error";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FormFields } from "../register/Register";
+import toast from "react-hot-toast";
+import { useTranslation } from "react-i18next";
 import { useUserLogin } from "src/services/mutations/loginUserApi";
-import { useAuth } from "../AuthContext/AuthContext";
+import { useAuth } from "../Auth/AuthContext/AuthContext";
+import { Error } from "../Error/Error";
+import { FormFields } from "../Register/Register";
+import "./login.css";
 
 export const Login = () => {
+  const { t } = useTranslation();
   const login = useAuth();
   const {
     register,
@@ -37,7 +39,7 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<FormFields> = (data, e) => {
     loginUser(data);
-    login.login();
+    login.login(data.token); //Czy to zadziała? sprawdzić w przyszłości!!!!!
     e?.target.reset();
   };
 
@@ -58,7 +60,7 @@ export const Login = () => {
               },
             })}
             autoComplete=""
-            placeholder="🙋  Type your username"
+            placeholder={`🙋${t("login.name")}`}
             className="login__input"
           />
           {errors.username && <Error>{errors.username.message}</Error>}
@@ -71,7 +73,7 @@ export const Login = () => {
               },
             })}
             autoComplete=""
-            placeholder="🔐  Type your password"
+            placeholder={`🔐${t("login.password")}`}
             type="password"
             className="login__input"
           />
@@ -82,7 +84,7 @@ export const Login = () => {
             type="submit"
             sx={{ fontSize: 14 }}
           >
-            Login
+            {t("login.submit")}
           </Button>
         </Box>
       </form>

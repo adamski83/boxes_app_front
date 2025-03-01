@@ -13,13 +13,17 @@ type MockData = MockDataItem[];
 interface FormControllerProps {
   item: MockDataItem;
   deleteItemHandler: (id: string) => void;
-  toggleEdit: () => void;
+  toggleEdit: (id: string) => void;
   onSubmit?: (data: MockDataItem) => void;
 }
 
 interface ErrorResponse {
   type: string;
   response?: string;
+}
+export enum Theme {
+  LIGHT = "light",
+  DARK = "dark",
 }
 
 export type { MockData, MockDataItem, ErrorResponse, FormControllerProps };

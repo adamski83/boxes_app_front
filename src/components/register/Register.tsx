@@ -1,5 +1,3 @@
-import "./register.css";
-import { SubmitHandler, useForm } from "react-hook-form";
 import {
   Box,
   Button,
@@ -8,9 +6,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Error } from "../error/Error";
+import { SubmitHandler, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRegisterUser } from "src/services/mutations/registerUserApi";
+import { Error } from "../Error/Error";
+import "./register.css";
+import { useTranslation } from "react-i18next";
 
 export type FormFields = {
   username: string;
@@ -20,6 +21,7 @@ export type FormFields = {
 };
 
 export const Register = () => {
+  const { t } = useTranslation();
   const { mutate: registerUser } = useRegisterUser({
     onSuccess: (data) => {
       console.log("User registered successfully:", data);
@@ -61,7 +63,7 @@ export const Register = () => {
               },
             })}
             autoComplete=""
-            placeholder="🙋  Type your username"
+            placeholder={`🙋${t("login.name")}`}
             className="register__input"
           />
           {errors.username && <Error>{errors.username.message}</Error>}
@@ -74,7 +76,7 @@ export const Register = () => {
               },
             })}
             autoComplete=""
-            placeholder="🔐  Type your password"
+            placeholder={`🔐${t("login.password")}`}
             type="password"
             className="register__input"
           />
@@ -85,7 +87,7 @@ export const Register = () => {
             type="submit"
             sx={{ fontSize: 14 }}
           >
-            Register
+            {t("login.submit")}
           </Button>
         </Box>
       </form>

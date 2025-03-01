@@ -1,21 +1,25 @@
 import { Box, Button, Grid } from "@mui/material";
-import "./card.css";
-import NoteCard from "src/noteCard/NoteCard";
+import { useTranslation } from "react-i18next";
+import { generatePDF } from "src/Helpers/generatePdf";
+import NoteCard from "src/NoteCard/NoteCard";
 import { MockDataItem } from "src/types";
-import { generatePDF } from "src/helpers/generatePdf";
+import "./card.css";
 
 type CardData = {
   data: MockDataItem[];
 };
 const Card = ({ data }: CardData) => {
+  const { t } = useTranslation();
   const generateSummaryPDF = () => {
     generatePDF(data);
   };
 
   return (
-    <Box>
+    <Box
+      sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
       <Button variant="contained" color="primary" onClick={generateSummaryPDF}>
-        Generate PDF
+        {t("form.generate")}
       </Button>
       <Grid container spacing={1}>
         {data.map((item) => (

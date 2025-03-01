@@ -4,18 +4,21 @@ import { Column } from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { Box, Button } from "@mui/material";
 import { useBoxes } from "src/services/queries/getAllBoxes";
-
-const COLUMNS: ColumnType[] = [
-  { id: "TODO", title: "Lager" },
-  { id: "IN_PROGRESS", title: "Bestellung" },
-];
+import { useTranslation } from "react-i18next";
 
 export const Orders = () => {
+  const { t } = useTranslation();
   const { data: boxes } = useBoxes();
+
   const [tasks, setTasks] = useState<Task[]>(() => {
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : boxes;
   });
+
+  const COLUMNS: ColumnType[] = [
+    { id: "TODO" as Task["status"], title: t("orders.status.warehous") },
+    { id: "IN_PROGRESS" as Task["status"], title: t("orders.status.orders") },
+  ];
 
   useEffect(() => {
     if (tasks) {
@@ -44,21 +47,21 @@ export const Orders = () => {
   }
 
   useEffect(() => {
-    if (boxes && !localStorage.getItem("tasks")) {
+    if (boxes?.data && !localStorage.getItem("tasks")) {
       setTasks(boxes);
     }
-  }, [boxes]);
+  }, [boxes?.data]);
 
   const celarTasks = () => {
     localStorage.removeItem("tasks");
-    setTasks(boxes);
+    setTasks(boxes?.data);
   };
 
   return (
     <Box sx={{ width: "100%", overflowX: "auto" }}>
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2, margin: 2 }}>
         <Button variant="contained" color="primary" onClick={celarTasks}>
-          Clear Tasks List
+          {t("orders.status.clearTasksList")}
         </Button>
       </Box>
       <Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
