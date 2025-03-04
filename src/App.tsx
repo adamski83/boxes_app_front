@@ -8,6 +8,8 @@ import { AppRoutes } from "./AppRoutes";
 import { Layout } from "../src/components/Layout/Layout";
 import { useThemeMode } from "./Hooks/UseThemeMode";
 import { assignTokenIntoAPI } from "./services/assignTokenIntoAPI";
+import { ErrorBoundary } from "react-error-boundary";
+import { ErrorFallbackComponent } from "./components/Error/ErrorBoundaryFallbackComponent";
 
 const App: React.FC = () => {
   const { mode, toggleTheme } = useThemeMode();
@@ -15,15 +17,16 @@ const App: React.FC = () => {
   useEffect(() => {
     assignTokenIntoAPI();
   }, []);
-
   return (
     <AuthProvider>
       <ThemeProviderWrapper>
-        <CssBaseline />
-        <Layout onThemeToggle={toggleTheme}>
-          <Toaster />
-          <AppRoutes />
-        </Layout>
+        <ErrorBoundary FallbackComponent={ErrorFallbackComponent}>
+          <CssBaseline />
+          <Layout onThemeToggle={toggleTheme}>
+            <Toaster />
+            <AppRoutes />
+          </Layout>
+        </ErrorBoundary>
       </ThemeProviderWrapper>
     </AuthProvider>
   );

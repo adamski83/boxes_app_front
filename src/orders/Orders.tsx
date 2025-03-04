@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import type { Task, Column as ColumnType } from "./types";
-import { Column } from "./Column";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { Box, Button } from "@mui/material";
-import { useBoxes } from "src/services/queries/getAllBoxes";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useBoxes } from "src/services/queries/getAllBoxes";
+import { Column } from "./Column";
+import type { Column as ColumnType, Task } from "./types";
 
 export const Orders = () => {
   const { t } = useTranslation();
@@ -14,7 +14,6 @@ export const Orders = () => {
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : boxes;
   });
-
   const COLUMNS: ColumnType[] = [
     { id: "TODO" as Task["status"], title: t("orders.status.warehous") },
     { id: "IN_PROGRESS" as Task["status"], title: t("orders.status.orders") },

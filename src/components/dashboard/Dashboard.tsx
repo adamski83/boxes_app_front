@@ -23,11 +23,8 @@ const Dashboard = () => {
     setPage,
   } = useBoxStore();
 
-  // Pobierz tylko boxy dla aktualnej strony
   const currentPageBoxes = getCurrentPageBoxes();
-  // Pobierz całkowitą liczbę stron
   const totalPages = getTotalPages();
-
   const handleSearch = (term: string) => {
     setSearchTerm(term);
   };
