@@ -12,15 +12,17 @@ import RefreshIcon from "@mui/icons-material/Refresh";
 import ReportIcon from "@mui/icons-material/Report";
 import { darkPalette, lightPalette } from "src/Theme/palette";
 import { FallbackProps } from "react-error-boundary";
+import { breakpoints } from "src/breakpoints";
+import { Flex, Theme } from "src/types";
 
 export const ErrorFallbackComponent = ({
   error,
   resetErrorBoundary,
 }: FallbackProps) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down(breakpoints.sm));
 
-  const isDarkMode = theme.palette.mode === "dark";
+  const isDarkMode = theme.palette.mode === Theme.DARK;
 
   return (
     <Container
@@ -28,24 +30,24 @@ export const ErrorFallbackComponent = ({
       sx={{
         height: "100vh",
         display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
+        alignItems: Flex.CENTER,
+        justifyContent: Flex.CENTER,
       }}
     >
       <Paper elevation={3}>
         <Box
           sx={{
             display: "flex",
-            flexDirection: isMobile ? "column" : "row",
-            alignItems: "center",
+            flexDirection: isMobile ? Flex.COLUMN : Flex.ROW,
+            alignItems: Flex.CENTER,
             gap: 3,
           }}
         >
           <Box
             sx={{
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: Flex.CENTER,
+              justifyContent: Flex.CENTER,
               p: 2,
               borderRadius: "50%",
               backgroundColor: isDarkMode
@@ -129,7 +131,7 @@ export const ErrorFallbackComponent = ({
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: Flex.CENTER,
             mt: 4,
             pt: 3,
             borderTop: `1px solid ${isDarkMode ? darkPalette.custom.error : darkPalette.custom.warning}`,

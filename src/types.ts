@@ -25,5 +25,11 @@ export enum Theme {
   LIGHT = "light",
   DARK = "dark",
 }
+export enum Flex {
+  ROW = "row",
+  COLUMN = "column",
+  CENTER = "center",
+  SPACE_BETWEEN = "space-between",
+}
 
 export type { MockData, MockDataItem, ErrorResponse, FormControllerProps };
