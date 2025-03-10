@@ -1,16 +1,18 @@
 import { create } from "zustand";
-import { MockDataItem } from "src/types";
+import { MockDataItem, ProductCategory } from "src/types";
 
 export interface BoxState {
   boxes: MockDataItem[];
   filteredBoxes: MockDataItem[];
   searchTerm: string;
+  selectedCategories: ProductCategory[];
   page: number;
   itemsPerPage: number;
 
   setBoxes: (boxes: MockDataItem[]) => void;
   setPage: (page: number) => void;
   setSearchTerm: (term: string) => void;
+  setSelectedCategories: (categories: ProductCategory[]) => void;
   filterBoxes: () => void;
   getCurrentPageBoxes: () => MockDataItem[];
   getTotalPages: () => number;
@@ -20,6 +22,7 @@ export const useBoxStore = create<BoxState>((set, get) => ({
   boxes: [],
   filteredBoxes: [],
   searchTerm: "",
+  selectedCategories: [],
   page: 1,
   itemsPerPage: 5,
 
@@ -31,20 +34,34 @@ export const useBoxStore = create<BoxState>((set, get) => ({
   setPage: (page) => set({ page }),
 
   setSearchTerm: (term) => {
-    set({ searchTerm: term, page: 1 }); // Resetuj stronę przy nowym wyszukiwaniu
+    set({ searchTerm: term, page: 1 });
+    get().filterBoxes();
+  },
+
+  setSelectedCategories: (categories) => {
+    set({ selectedCategories: categories, page: 1 });
     get().filterBoxes();
   },
 
   filterBoxes: () => {
-    const { boxes, searchTerm } = get();
-    if (!searchTerm.trim()) {
-      set({ filteredBoxes: boxes });
-      return;
+    const { boxes, searchTerm, selectedCategories } = get();
+
+    let filtered = [...boxes];
+
+    // Filtrowanie po tekście
+    if (searchTerm) {
+      filtered = filtered.filter((box) =>
+        box.name.toLowerCase().includes(searchTerm.toLowerCase()),
+      );
     }
 
-    const filtered = boxes.filter((box) =>
-      box.name.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    // Filtrowanie po kategoriach
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter((box) =>
+        selectedCategories.includes(box.category),
+      );
+    }
+
     set({ filteredBoxes: filtered });
   },
 
@@ -56,6 +73,6 @@ export const useBoxStore = create<BoxState>((set, get) => ({
 
   getTotalPages: () => {
     const { filteredBoxes, itemsPerPage } = get();
-    return Math.ceil(filteredBoxes.length / itemsPerPage);
+    return Math.max(1, Math.ceil(filteredBoxes.length / itemsPerPage));
   },
 }));

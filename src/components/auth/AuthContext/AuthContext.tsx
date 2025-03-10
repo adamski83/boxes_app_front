@@ -24,6 +24,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   useEffect(() => {
     const token = window.localStorage.getItem("access_token");
+
     if (token) {
       setIsAuthenticated(true);
       setIsLoading(false);
@@ -34,6 +35,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
 
   const login = (token: string) => {
     localStorage.setItem("access_token", token);
+
+    setIsAuthenticated(true);
     navigate("/dashboard");
   };
 
