@@ -1,5 +1,6 @@
 import { z } from "zod";
 import i18next from "i18next";
+import { ProductCategory } from "src/types";
 
 export const createBoxSchema = () => {
   const t = i18next.t;
@@ -28,6 +29,10 @@ export const createBoxSchema = () => {
       "Storage Room 2",
       "External Storage",
     ]),
+
+    category: z.nativeEnum(ProductCategory, {
+      errorMap: () => ({ message: t("form.validation.categoryRequired") }),
+    }),
 
     status: z.enum(["TODO", "IN_PROGRESS", "DONE"]).default("TODO"),
   });

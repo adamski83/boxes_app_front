@@ -16,8 +16,8 @@ import { useTranslation } from "react-i18next";
 export type FormFields = {
   username: string;
   password: string;
-  userID: string;
   token: string;
+  user: { role: string; id: string; username: string };
 };
 
 export const Register = () => {

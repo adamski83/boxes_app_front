@@ -6,15 +6,21 @@ import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplica
 import { useTranslation } from "react-i18next";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-
+import React from "react";
 export const SidebarMenu = ({ onClose }: any) => {
+  const role = localStorage.getItem("user_role");
+
   const { t } = useTranslation();
   const menuItems = [
     {
       to: "",
       className: "menu1",
       icon: <MenuRoundedIcon onClick={onClose} />,
-      label: <h2>{t("sidebar.menu.title")}</h2>,
+      label: (
+        <div>
+          <p>{role}</p>
+        </div>
+      ),
     },
     {
       to: "/dashboard",

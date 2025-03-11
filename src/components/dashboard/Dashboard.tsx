@@ -9,6 +9,8 @@ import BoxForm from "../Form/AddItemForm";
 import { SearchBar } from "../SearchBar/SearchBar";
 import "./dashboard.css";
 import { Loader } from "../Loader/Loader";
+import { ProductCategory } from "src/types";
+import { CategoryFilter } from "../Form/CategoryFilter";
 
 const Dashboard = () => {
   const theme = useTheme();
@@ -17,6 +19,7 @@ const Dashboard = () => {
   const {
     setBoxes,
     setSearchTerm,
+    setSelectedCategories,
     getCurrentPageBoxes,
     getTotalPages,
     page,
@@ -27,6 +30,10 @@ const Dashboard = () => {
   const totalPages = getTotalPages();
   const handleSearch = (term: string) => {
     setSearchTerm(term);
+  };
+
+  const handleCategoryFilter = (categories: ProductCategory[]) => {
+    setSelectedCategories(categories);
   };
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
@@ -55,6 +62,7 @@ const Dashboard = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} marginTop={3}>
           <SearchBar onSearch={handleSearch} />
+          <CategoryFilter onFilterChange={handleCategoryFilter} />
         </Grid>
         <Grid item xs={12}>
           <BoxForm />
