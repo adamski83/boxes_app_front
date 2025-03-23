@@ -11,6 +11,8 @@ import "./dashboard.css";
 import { Loader } from "../Loader/Loader";
 import { ProductCategory } from "src/types";
 import { CategoryFilter } from "../Form/CategoryFilter";
+import { use } from "i18next";
+import { axiosInstance } from "../../services/apiClient";
 
 const Dashboard = () => {
   const theme = useTheme();
