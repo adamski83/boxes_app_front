@@ -4,7 +4,7 @@ import { FormProvider, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useAddNewBox } from "src/services/mutations/addNewBox";
 import { GET_BOXES } from "src/services/queries/tags";
-import { MockDataItem } from "src/types";
+import { MockDataItem, ProductCategory } from "src/types";
 import { FormInput } from "./AddFormInput";
 import { FormSelect } from "./FormSelect";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,7 @@ const storageOptions = [
   "Storage Room 2",
   "External Storage",
 ] as const;
+const categoryOptions = Object.values(ProductCategory);
 
 const BoxForm: React.FC = () => {
   const { t } = useTranslation();
@@ -27,6 +28,7 @@ const BoxForm: React.FC = () => {
       amount: 0,
       usage: "",
       storage: "Warehouse A",
+      category: ProductCategory.BOX, // Ważne! Ustaw ponownie wartość domyślną
       status: "TODO",
     },
   });
@@ -39,8 +41,9 @@ const BoxForm: React.FC = () => {
         name: "",
         amount: 0,
         usage: "",
-        storage: "Warehouse A", // Ważne! Ustaw ponownie wartość domyślną
+        storage: "Warehouse A",
         status: "TODO",
+        category: ProductCategory.BOX,
       });
     },
     onError: (error) => {
@@ -50,6 +53,7 @@ const BoxForm: React.FC = () => {
 
   const onSubmitHandler = (data: MockDataItem): void => {
     addNewBox(data);
+    console.log(data);
   };
 
   return (
@@ -68,6 +72,11 @@ const BoxForm: React.FC = () => {
               type="number"
             />
             <FormInput autoComplete="on" name="usage" label={t("form.usage")} />
+            <FormSelect
+              name="category"
+              label={t("form.category")}
+              options={categoryOptions}
+            />
             <FormSelect
               name="storage"
               label={t("form.storage")}

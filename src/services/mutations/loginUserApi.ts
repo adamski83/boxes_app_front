@@ -8,7 +8,6 @@ import { axiosInstance } from "../apiClient";
 
 const loginUserApi = async (data: FormFields) => {
   const response = await axiosInstance.post("/user/login", data);
-
   return response.data;
 };
 

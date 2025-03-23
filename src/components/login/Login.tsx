@@ -25,8 +25,9 @@ export const Login = () => {
   } = useForm<FormFields>();
   const { mutate: loginUser } = useUserLogin({
     onSuccess: (data) => {
-      localStorage.setItem("userID", data.userID);
+      localStorage.setItem("userID", data.user.id);
       localStorage.setItem("access_token", data.token);
+      localStorage.setItem("user_role", data.user.role);
     },
     onError: (error: Error): void => {
       console.error("Błąd podczas logowania:", error);

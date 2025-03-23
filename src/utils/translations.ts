@@ -9,6 +9,15 @@ interface TranslationsSchema {
     };
   };
   form: {
+    category: string;
+    categories: {
+      box: string;
+      tape: string;
+      foil: string;
+      sticker: string;
+      filler: string;
+      other: string;
+    };
     generate: string;
     edit: string;
     searchBoxes: string;
@@ -60,6 +69,15 @@ export const translations: Record<"pl" | "en", TranslationsSchema> = {
       },
     },
     form: {
+      category: "Kategoria",
+      categories: {
+        box: "Karton",
+        tape: "Taśma",
+        foil: "Folia",
+        sticker: "Naklejka",
+        filler: "Wypełniacz",
+        other: "Inne",
+      },
       generate: "Generuj PDF",
       edit: "Edytuj",
       searchBoxes: "Szukaj opakowań...",
@@ -109,6 +127,15 @@ export const translations: Record<"pl" | "en", TranslationsSchema> = {
       },
     },
     form: {
+      category: "Category",
+      categories: {
+        box: "Box",
+        tape: "Tape",
+        foil: "Foil",
+        sticker: "Sticker",
+        filler: "Filler",
+        other: "Other",
+      },
       generate: "Generate PDF",
       edit: "Edit",
       searchBoxes: "Search boxes...",

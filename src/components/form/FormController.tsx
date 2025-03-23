@@ -3,7 +3,7 @@ import QRCode from "react-qr-code";
 import EditIcon from "@mui/icons-material/Edit";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
-import { IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { FormControllerProps } from "src/types";
 
@@ -12,7 +12,7 @@ export const FormController = ({
   deleteItemHandler,
   toggleEdit,
 }: FormControllerProps) => {
-  const { amount, name, usage, _id, storage } = item;
+  const { amount, name, usage, _id, storage, category } = item;
 
   return (
     <Card key={_id}>
@@ -45,18 +45,30 @@ export const FormController = ({
             viewBox={`0 0 256 256`}
           />
         </div>
-        <Typography variant="body2" color="textSecondary">
-          {/* {modifedDimension} */}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          {usage}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          {amount}
-        </Typography>
-        <Typography variant="body2" color="textSecondary">
-          {storage}
-        </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "left",
+            gap: 4,
+          }}
+        >
+          <Typography variant="body2" color="textSecondary">
+            {/* {modifedDimension} */}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {usage}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {amount}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {storage}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {category}
+          </Typography>
+        </Box>
       </CardContent>
     </Card>
   );
