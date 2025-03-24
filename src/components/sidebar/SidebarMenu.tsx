@@ -38,6 +38,11 @@ export const SidebarMenu = ({ onClose }: any) => {
       icon: <SettingsApplicationsRoundedIcon onClick={onClose} />,
     },
     {
+      to: "/Charts",
+      label: <>{t("sidebar.menu.charts")}</>,
+      icon: <SettingsApplicationsRoundedIcon onClick={onClose} />,
+    },
+    {
       to: "/login",
       icon: <LogoutRoundedIcon onClick={onClose} />,
       label: <>{t("sidebar.menu.logout")}</>,

@@ -1,7 +1,7 @@
 import { Container, Grid, Pagination } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useTheme } from "@mui/material/styles";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useBoxes } from "src/services/queries/getAllBoxes";
 import { useBoxStore } from "src/State/store";
 import Card from "../Card/Card";

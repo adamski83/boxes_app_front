@@ -6,6 +6,7 @@ interface TranslationsSchema {
       qrScanner: string;
       invoices: string;
       logout: string;
+      charts: string;
     };
   };
   form: {
@@ -55,6 +56,9 @@ interface TranslationsSchema {
       completed: string;
     };
   };
+  charts: {
+    title: string;
+  };
 }
 
 export const translations: Record<"pl" | "en", TranslationsSchema> = {
@@ -66,6 +70,7 @@ export const translations: Record<"pl" | "en", TranslationsSchema> = {
         qrScanner: "Skaner QR",
         invoices: "Faktury",
         logout: "Wyloguj",
+        charts: "Wykresy",
       },
     },
     form: {
@@ -115,6 +120,9 @@ export const translations: Record<"pl" | "en", TranslationsSchema> = {
         completed: "Zakończone",
       },
     },
+    charts: {
+      title: "Ilość w magazynie",
+    },
   },
   en: {
     sidebar: {
@@ -124,6 +132,7 @@ export const translations: Record<"pl" | "en", TranslationsSchema> = {
         qrScanner: "QR Scanner",
         invoices: "Invoices",
         logout: "Logout",
+        charts: "Charts",
       },
     },
     form: {
@@ -172,6 +181,9 @@ export const translations: Record<"pl" | "en", TranslationsSchema> = {
         orders: "Orders",
         clearTasksList: "clear Tasks list",
       },
+    },
+    charts: {
+      title: "Amount in storage",
     },
   },
 };
