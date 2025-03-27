@@ -8,6 +8,7 @@ import { EditBox } from "./components/Invoices/EditBox";
 import { Orders } from "./Orders/Orders";
 import { Login } from "./components/Login/Login";
 import { Register } from "./components/Register/Register";
+import { Chart } from "./components/Charts/Chart";
 
 export const AppRoutes = () => {
   return (
@@ -16,8 +17,9 @@ export const AppRoutes = () => {
         <Route path={PATHS.home} element={<Home />} />
         <Route path={PATHS.dashboard} element={<Dashboard />} />
         <Route path={PATHS.qrScanner} element={<Invoices />} />
-        <Route path="/edit/:id" element={<EditBox />} />
+        <Route path={PATHS.edit} element={<EditBox />} />
         <Route path={PATHS.invoices} element={<Orders />} />
+        <Route path={PATHS.charts} element={<Chart />} />
       </Route>
       <Route path={PATHS.login} element={<Login />} />
       <Route path={PATHS.register} element={<Register />} />
