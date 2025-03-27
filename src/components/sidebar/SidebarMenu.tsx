@@ -2,6 +2,7 @@ import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
+import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
 import { useTranslation } from "react-i18next";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
@@ -25,27 +26,27 @@ export const SidebarMenu = ({ onClose }: any) => {
     {
       to: "/dashboard",
       icon: <GridViewRoundedIcon onClick={onClose} />,
-      label: <>{t("sidebar.menu.dashboard")}</>,
+      label: t("sidebar.menu.dashboard"),
     },
     {
       to: "/qr-scanner",
       icon: <ReceiptRoundedIcon onClick={onClose} />,
-      label: <>{t("sidebar.menu.qrScanner")}</>,
+      label: t("sidebar.menu.qrScanner"),
     },
     {
-      to: "/Invoices",
-      label: <>{t("sidebar.menu.invoices")}</>,
+      to: "/invoices",
+      label: t("sidebar.menu.invoices"),
       icon: <SettingsApplicationsRoundedIcon onClick={onClose} />,
     },
     {
-      to: "/Charts",
-      label: <>{t("sidebar.menu.charts")}</>,
-      icon: <SettingsApplicationsRoundedIcon onClick={onClose} />,
+      to: "/charts",
+      label: t("sidebar.menu.charts"),
+      icon: <DonutSmallIcon onClick={onClose} />,
     },
     {
       to: "/login",
       icon: <LogoutRoundedIcon onClick={onClose} />,
-      label: <>{t("sidebar.menu.logout")}</>,
+      label: t("sidebar.menu.logout"),
     },
   ];
 

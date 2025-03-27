@@ -17,7 +17,7 @@ export const AppRoutes = () => {
         <Route path={PATHS.home} element={<Home />} />
         <Route path={PATHS.dashboard} element={<Dashboard />} />
         <Route path={PATHS.qrScanner} element={<Invoices />} />
-        <Route path="/edit/:id" element={<EditBox />} />
+        <Route path={PATHS.edit} element={<EditBox />} />
         <Route path={PATHS.invoices} element={<Orders />} />
         <Route path={PATHS.charts} element={<Chart />} />
       </Route>

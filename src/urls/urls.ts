@@ -6,6 +6,7 @@ type paths = {
   qrScanner: string;
   invoices: string;
   charts: string;
+  edit: string;
 };
 
 export const PATHS: paths = {
@@ -16,4 +17,5 @@ export const PATHS: paths = {
   login: "/login",
   invoices: "/invoices",
   charts: "/charts",
+  edit: "/edit/:id",
 };

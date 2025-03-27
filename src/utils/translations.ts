@@ -1,67 +1,4 @@
-interface TranslationsSchema {
-  sidebar: {
-    menu: {
-      title: string;
-      dashboard: string;
-      qrScanner: string;
-      invoices: string;
-      logout: string;
-      charts: string;
-    };
-  };
-  form: {
-    category: string;
-    categories: {
-      box: string;
-      tape: string;
-      foil: string;
-      sticker: string;
-      filler: string;
-      other: string;
-    };
-    generate: string;
-    edit: string;
-    searchBoxes: string;
-    name: string;
-    amount: string;
-    dimensions: string;
-    usage: string;
-    picture: string;
-    storage: string;
-    add: string;
-    validation: {
-      nameRequired: string;
-      amountRequired: string;
-      amountMin: string;
-      dimensionsFormat: string;
-      usageRequired: string;
-    };
-  };
-  login: {
-    title: string;
-    name: string;
-    email: string;
-    password: string;
-    submit: string;
-    error: string;
-  };
-  orders: {
-    title: string;
-    status: {
-      warehous: string;
-      orders: string;
-      clearTasksList: string;
-      pending: string;
-      inProgress: string;
-      completed: string;
-    };
-  };
-  charts: {
-    title: string;
-  };
-}
-
-export const translations: Record<"pl" | "en", TranslationsSchema> = {
+export const translations = {
   pl: {
     sidebar: {
       menu: {
@@ -122,6 +59,8 @@ export const translations: Record<"pl" | "en", TranslationsSchema> = {
     },
     charts: {
       title: "Ilość w magazynie",
+      error: "Wystąpił błąd podczas pobierania danych",
+      loading: "Ładowanie danych...",
     },
   },
   en: {
@@ -179,11 +118,13 @@ export const translations: Record<"pl" | "en", TranslationsSchema> = {
         completed: "Completed",
         warehous: "Warehouse",
         orders: "Orders",
-        clearTasksList: "clear Tasks list",
+        clearTasksList: "Clear Tasks list",
       },
     },
     charts: {
       title: "Amount in storage",
+      error: "An error occurred while downloading data",
+      loading: "Loading data...",
     },
   },
-};
+} as const;
