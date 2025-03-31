@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Theme } from "../types";
+import { Theme } from "../types/themeType";
 
 export const useThemeMode = () => {
   const [mode, setMode] = useState<Theme>(() => {

@@ -1,14 +1,15 @@
+import React from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { PATHS } from "./Urls/urls";
 import ProtectedRoute from "./components/Auth/ProtectedRoute";
-import Home from "./components/Home/Home";
-import Dashboard from "./components/Dashboard/Dashboard";
-import { Invoices } from "./components/Invoices/Invoices";
-import { EditBox } from "./components/Invoices/EditBox";
-import { Orders } from "./Orders/Orders";
-import { Login } from "./components/Login/Login";
-import { Register } from "./components/Register/Register";
-import { Chart } from "./components/Charts/Chart";
+import { Chart } from "./components/layouts/Charts/Chart";
+import Dashboard from "./components/layouts/Dashboard/Dashboard";
+import Home from "./components/layouts/Home/Home";
+import { EditBox } from "./components/layouts/Invoices/EditBox";
+import { Invoices } from "./components/layouts/Invoices/Invoices";
+import { Login } from "./components/layouts/Login/Login";
+import { Orders } from "./components/layouts/Orders/Orders";
+import { Register } from "./components/layouts/Register/Register";
 
 export const AppRoutes = () => {
   return (
