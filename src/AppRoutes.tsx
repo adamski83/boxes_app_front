@@ -10,6 +10,7 @@ import { Invoices } from "./components/layouts/Invoices/Invoices";
 import { Login } from "./components/layouts/Login/Login";
 import { Orders } from "./components/layouts/Orders/Orders";
 import { Register } from "./components/layouts/Register/Register";
+import { Live } from "./components/layouts/Live/Live";
 
 export const AppRoutes = () => {
   return (
@@ -21,6 +22,7 @@ export const AppRoutes = () => {
         <Route path={PATHS.edit} element={<EditBox />} />
         <Route path={PATHS.invoices} element={<Orders />} />
         <Route path={PATHS.charts} element={<Chart />} />
+        <Route path={PATHS.lives} element={<Live />} />
       </Route>
       <Route path={PATHS.login} element={<Login />} />
       <Route path={PATHS.register} element={<Register />} />

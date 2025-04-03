@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import { useBoxes } from "../../../services/queries/getAllBoxes";
+import { useArduinoData } from "../../../services/queries/getArduinoData";
 import "chart.js/auto";
 import { useTranslation } from "react-i18next";
 import { lightPalette } from "../../../styles";

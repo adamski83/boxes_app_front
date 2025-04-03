@@ -8,6 +8,7 @@ export const translations = {
         invoices: "Faktury",
         logout: "Wyloguj",
         charts: "Wykresy",
+        lives: "Na żywo",
       },
     },
     form: {
@@ -72,6 +73,7 @@ export const translations = {
         invoices: "Invoices",
         logout: "Logout",
         charts: "Charts",
+        lives: "live",
       },
     },
     form: {

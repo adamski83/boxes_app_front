@@ -4,6 +4,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
 import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
+import InsightsIcon from "@mui/icons-material/Insights";
 import { useTranslation } from "react-i18next";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
@@ -42,6 +43,11 @@ export const SidebarMenu = ({ onClose }: any) => {
       to: "/charts",
       label: t("sidebar.menu.charts"),
       icon: <DonutSmallIcon onClick={onClose} />,
+    },
+    {
+      to: "/lives",
+      label: t("sidebar.menu.lives"),
+      icon: <InsightsIcon onClick={onClose} />,
     },
     {
       to: "/login",

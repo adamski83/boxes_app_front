@@ -1,10 +1,12 @@
 import { Button, Card, CardContent, Stack, Typography } from "@mui/material";
 import { FormProvider, useForm } from "react-hook-form";
-import { FormControllerProps, MockDataItem } from "src/types";
+import { FormControllerProps } from "../../types/formControllerPropsType";
+import { MockDataItem } from "../../types/mockData";
 import { FormInput } from "./FormInput";
 import { CardHeader } from "../common/CardHeader/CardHeader";
 import { FormSelect } from "./FormSelect";
 import { useTranslation } from "react-i18next";
+import React from "react";
 export const STORAGE_OPTIONS = [
   "Warehouse A",
   "Warehouse B",

@@ -6,7 +6,8 @@ import { FormController } from "../../forms/FormController";
 import { useDeleteBox } from "src/services/mutations/deleteOneBox";
 import { useUpdateBox } from "src/services/mutations/updateBox";
 import { GET_BOXES } from "src/services/queries/tags";
-import { MockDataItem } from "src/types";
+import { MockDataItem } from "../../../types/mockData";
+import React from "react";
 
 interface Props {
   item: MockDataItem;

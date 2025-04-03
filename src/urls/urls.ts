@@ -7,6 +7,7 @@ type paths = {
   invoices: string;
   charts: string;
   edit: string;
+  lives: string;
 };
 
 export const PATHS: paths = {
@@ -18,4 +19,5 @@ export const PATHS: paths = {
   invoices: "/invoices",
   charts: "/charts",
   edit: "/edit/:id",
+  lives: "/lives",
 };
