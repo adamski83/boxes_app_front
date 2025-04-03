@@ -1,9 +1,9 @@
-import { SidebarMenu } from "../Sidebar/SidebarMenu";
-import ThemeToggle from "../ThemeToggle/ThemeToggle";
 import { useMediaQuery, useTheme } from "@mui/material";
 import { useState } from "react";
-import { breakpoints } from "../../breakpoints";
-import { MobileNavigation } from "../MobileNavigation/MobileNavigation";
+import { breakpoints } from "../../constants/breakpoints";
+import { MobileNavigation } from "../common/MobileNavigation/MobileNavigation";
+import ThemeToggle from "../common/ThemeToggle/ThemeToggle";
+import { SidebarMenu } from "../layouts/Sidebar/SidebarMenu";
 
 interface LayoutProps {
   children: React.ReactNode;
