@@ -8,7 +8,7 @@ import { AuthProvider } from "./components/Auth/AuthContext/AuthContext";
 import { ErrorFallbackComponent } from "./components/common/Error/ErrorBoundaryFallbackComponent";
 import { Layout } from "./components/layouts/MainLayout/MainLayout";
 import { ThemeProviderWrapper } from "./context/ThemeContext";
-import { useThemeMode } from "./hooks/useThemeMode";
+import { useThemeMode } from "./hooks/UseThemeMode";
 import { assignTokenIntoAPI } from "./services/assignTokenIntoAPI";
 
 const App: React.FC = () => {
