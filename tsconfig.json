@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react-jsx",
     "target": "ES6", // Specifies the target JavaScript version
     "module": "commonjs", // Use CommonJS module system (standard for Node.js)
     "moduleResolution": "node", // Resolves modules using Node's resolution strategy
@@ -19,7 +20,8 @@
   },
   "include": [
     "src//*.ts", // Include all TypeScript files in the src folder
-    "src/types//*.d.ts" // Include custom type definitions
+    "src/types//*.d.ts", // Include custom type definitions
+    "src/constants/breakpoints.ts"
   ],
   "exclude": [
     "node_modules", // Exclude the node_modules directory from the compilation

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { axiosInstance } from "../apiClient";
-import { ProductCategory } from "src/types";
+import { ProductCategory } from "../../types/productCategoryType";
 
 interface SearchParams {
   name?: string;
