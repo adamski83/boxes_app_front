@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Bar, Line } from "react-chartjs-2";
 import { useBoxes } from "../../../services/queries/getAllBoxes";
-import { useArduinoData } from "../../../services/queries/getArduinoData";
 import "chart.js/auto";
 import { useTranslation } from "react-i18next";
 import { lightPalette } from "../../../styles";
@@ -83,15 +82,21 @@ export const Chart = () => {
 
         <Grid item xs={12} md={6}>
           <FormControl fullWidth>
-            <InputLabel id="chart-type-label">Typ wykresu</InputLabel>
+            <InputLabel id="chart-type-label">
+              {t("charts.chartType")}
+            </InputLabel>
             <Select
               labelId="chart-type-label"
               value={chartType}
               label="Typ wykresu"
               onChange={handleChartTypeChange}
             >
-              <MenuItem value="line">Linia</MenuItem>
-              <MenuItem value="bar">Słupki</MenuItem>
+              <MenuItem value="line">
+                {t("charts.chartTypeOptions.line")}
+              </MenuItem>
+              <MenuItem value="bar">
+                {t("charts.chartTypeOptions.bar")}
+              </MenuItem>
             </Select>
           </FormControl>
         </Grid>

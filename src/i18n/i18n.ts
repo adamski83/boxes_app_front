@@ -10,6 +10,9 @@ i18n.use(initReactI18next).init({
     pl: {
       translation: translations.pl,
     },
+    de: {
+      translation: translations.de,
+    },
   },
   lng: "pl",
   interpolation: {

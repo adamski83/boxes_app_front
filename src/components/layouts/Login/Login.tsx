@@ -14,6 +14,7 @@ import { useAuth } from "../../Auth/AuthContext/AuthContext";
 import { Error } from "src/components/common/Error/Error";
 import { FormFields } from "../Register/Register";
 import "./login.css";
+import React from "react";
 
 export const Login = () => {
   const { t } = useTranslation();
@@ -40,7 +41,7 @@ export const Login = () => {
 
   const onSubmit: SubmitHandler<FormFields> = (data, e) => {
     loginUser(data);
-    login.login(data.token); //Czy to zadziała? sprawdzić w przyszłości!!!!!
+    login.login(data.token);
     e?.target.reset();
   };
 
