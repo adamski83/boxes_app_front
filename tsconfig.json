@@ -3,7 +3,8 @@
     "jsx": "react-jsx",
     "target": "ES6", // Specifies the target JavaScript version
     "module": "commonjs", // Use CommonJS module system (standard for Node.js)
-    "moduleResolution": "node", // Resolves modules using Node's resolution strategy
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0", // Resolves modules using Node's resolution strategy
     "esModuleInterop": true, // Enables compatibility with CommonJS modules
     "skipLibCheck": true, // Skips type checking of declaration files to improve build speed
     "forceConsistentCasingInFileNames": true, // Ensures that file names are consistent with case sensitivity

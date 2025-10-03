@@ -2,6 +2,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { TaskCard } from "./TaskCard";
 import { Column as ColumnType, Task } from "./types";
 import { Box, Stack, Typography } from "@mui/material";
+import React from "react";
 
 type ColumnProps = {
   column: ColumnType;
