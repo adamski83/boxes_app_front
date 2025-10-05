@@ -35,6 +35,7 @@ export const createBoxSchema = () => {
     }),
 
     status: z.enum(["TODO", "IN_PROGRESS", "DONE"]).default("TODO"),
+    uploaded_file: z.string().optional(),
   });
 };
 

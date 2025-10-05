@@ -42,6 +42,7 @@ const Dashboard = () => {
   useEffect(() => {
     if (data?.data) {
       setBoxes(data.data);
+      console.log("Boxes set in store:", data.data);
     }
   }, [data?.data, setBoxes]);
 

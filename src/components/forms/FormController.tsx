@@ -1,18 +1,32 @@
-import Card from "@mui/material/Card";
-import QRCode from "react-qr-code";
-import EditIcon from "@mui/icons-material/Edit";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import { Box, IconButton, Typography } from "@mui/material";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { FormControllerProps } from "src/types";
+import EditIcon from "@mui/icons-material/Edit";
+import ImageIcon from "@mui/icons-material/Image";
+import { Box, IconButton, Typography } from "@mui/material";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import QRCode from "react-qr-code";
+import { FormControllerProps } from "../../types/formControllerPropsType";
+import { ProductImage } from "../common/ProductImage/ProductImage";
 
 export const FormController = ({
   item,
   deleteItemHandler,
   toggleEdit,
 }: FormControllerProps) => {
-  const { amount, name, usage, _id, storage, category } = item;
+  const { amount, name, usage, _id, storage, category, picture } = item;
+
+  const getImageUrl = (picturePath: string | undefined) => {
+    if (!picturePath) return null;
+
+    if (picturePath.startsWith("http")) {
+      return picturePath;
+    }
+
+    return `http://localhost:5001${picturePath}`;
+  };
+
+  const imageUrl = getImageUrl(picture);
 
   return (
     <Card key={_id}>
@@ -36,6 +50,7 @@ export const FormController = ({
             margin: "0 auto",
             maxWidth: 64,
             width: "100%",
+            marginBottom: 16,
           }}
         >
           <QRCode
@@ -45,29 +60,40 @@ export const FormController = ({
             viewBox={`0 0 256 256`}
           />
         </div>
+
         <Box
           sx={{
             display: "flex",
             flexDirection: "row",
             justifyContent: "left",
-            gap: 4,
+            alignItems: "center",
+            gap: 2,
+            flexWrap: "wrap",
           }}
         >
           <Typography variant="body2" color="textSecondary">
-            {/* {modifedDimension} */}
+            Usage: {usage}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {usage}
+            Amount: {amount}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {amount}
+            Storage: {storage}
           </Typography>
           <Typography variant="body2" color="textSecondary">
-            {storage}
+            Category: {category}
           </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {category}
-          </Typography>
+        </Box>
+
+        <Box sx={{ mt: 1 }}>
+          {imageUrl ? (
+            <ProductImage src={imageUrl} alt={name} width={200} height={150} />
+          ) : (
+            <div>
+              <ImageIcon fontSize="large" color="disabled" />
+              <p>Brak obrazu</p>
+            </div>
+          )}
         </Box>
       </CardContent>
     </Card>

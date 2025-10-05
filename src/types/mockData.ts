@@ -10,5 +10,7 @@ export type MockDataItem = {
   _id?: string;
   storage?: string;
   category: ProductCategory;
+  type?: string;
+  uploaded_file?: string;
 };
 export type MockData = MockDataItem[];

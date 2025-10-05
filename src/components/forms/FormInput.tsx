@@ -1,6 +1,7 @@
 import { TextField } from "@mui/material";
-import { useFormContext, Controller } from "react-hook-form";
+import { SxProps, Theme } from "@mui/material/styles";
 import { useId } from "react";
+import { Controller, useFormContext } from "react-hook-form";
 
 interface FormInputProps {
   name: string;
@@ -8,6 +9,8 @@ interface FormInputProps {
   autoComplete?: string;
   type?: string;
   placeholder?: string;
+  sx?: SxProps<Theme>;
+  style?: React.CSSProperties;
 }
 
 export const FormInput = ({
@@ -16,6 +19,8 @@ export const FormInput = ({
   autoComplete,
   type = "text",
   placeholder,
+  sx,
+  style,
 }: FormInputProps) => {
   const { control } = useFormContext();
   const id = useId();
@@ -35,6 +40,8 @@ export const FormInput = ({
           error={!!error}
           helperText={error?.message}
           fullWidth
+          sx={sx}
+          style={style}
         />
       )}
     />

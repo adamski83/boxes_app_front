@@ -7,6 +7,7 @@ export interface AddFormFields {
   picture?: string;
   storage?: string;
   status?: string;
+  type?: string;
 }
 
 export interface AddFormProps {

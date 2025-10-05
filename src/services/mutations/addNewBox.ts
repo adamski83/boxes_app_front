@@ -1,22 +1,20 @@
-import { MockData } from "src/types";
-import { axiosInstance } from "../apiClient.ts";
-import {
-  useMutation,
-  UseMutationOptions,
-  UseMutationResult,
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
-const addNewBoxApi = async (box: MockData): Promise<MockData> => {
-  const response = await axiosInstance.post("/api/box", box);
-  return response.data;
-};
-//return response.data !!!!!!!!!!!!!!!
-
-export function useAddNewBox(
-  options?: UseMutationOptions<MockData, Error, MockData>,
-): UseMutationResult<MockData, Error, MockData> {
+export const useAddNewBox = (options?: {
+  onSuccess?: () => void;
+  onError?: (error: any) => void;
+}) => {
   return useMutation({
-    mutationFn: addNewBoxApi,
-    ...options,
+    mutationFn: async (data: FormData) => {
+      const response = await axios.post("/api/box", data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data;
+    },
+    onSuccess: options?.onSuccess,
+    onError: options?.onError,
   });
-}
+};
