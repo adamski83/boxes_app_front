@@ -11,6 +11,7 @@ import { Login } from "./components/layouts/Login/Login";
 import { Orders } from "./components/layouts/Orders/Orders";
 import { Register } from "./components/layouts/Register/Register";
 import { Live } from "./components/layouts/Live/Live";
+import Pdfs from "./components/layouts/Pdfs/Pdfs";
 
 export const AppRoutes = () => {
   return (
@@ -22,6 +23,7 @@ export const AppRoutes = () => {
         <Route path={PATHS.edit} element={<EditBox />} />
         <Route path={PATHS.invoices} element={<Orders />} />
         <Route path={PATHS.charts} element={<Chart />} />
+        <Route path={PATHS.pdfs} element={<Pdfs />} />
         <Route path={PATHS.lives} element={<Live />} />
       </Route>
       <Route path={PATHS.login} element={<Login />} />
