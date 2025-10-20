@@ -1,7 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { axiosInstance } from "../services/apiClient";
-
+import { PdfSearchParams } from "../types/globalTypes";
+import toast from "react-hot-toast";
 interface PdfFile {
   name: string;
   path: string;
@@ -11,24 +12,35 @@ interface PdfFile {
   modifiedAt: string;
 }
 
-interface PdfSearchParams {
-  name?: string;
-  sortBy: "name" | "size" | "createdAt";
-  order: "asc" | "desc";
-}
-
-interface PdfSearchResponse {
+interface ApiResponse<T> {
   success: boolean;
   count: number;
-  data: PdfFile[];
+  data: T;
 }
+type responsApiType = {
+  success: boolean;
+  data: PdfFile;
+};
+
+type PdfSearchResponse = ApiResponse<PdfFile[]>;
+
+const handleApiError = (error: unknown, defaultMessage: string) => {
+  if (error instanceof AxiosError) {
+    const message = error.response?.data?.message || defaultMessage;
+    toast.error(message);
+  } else if (error instanceof Error) {
+    toast.error(error.message);
+  } else {
+    toast.error(defaultMessage);
+  }
+};
 
 export const usePdfSearch = (params: PdfSearchParams) => {
   return useQuery({
     queryKey: ["pdfs", params],
     queryFn: async (): Promise<PdfFile[]> => {
       const response = await axiosInstance.get<PdfSearchResponse>(
-        "/api/pdf/search", //TODO: zmienić endpoint na /api/pdfs
+        "/api/pdf/search",
         {
           params: {
             name: params.name || undefined,
@@ -98,14 +110,15 @@ export const useUploadPdf = () => {
       const formData = new FormData();
       formData.append("pdf", file);
 
-      const response = await axiosInstance.post<{
-        success: boolean;
-        data: PdfFile;
-      }>("/api/pdf/upload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      const response = await axiosInstance.post<responsApiType>(
+        "/api/pdf/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
 
       if (response.data.success) {
         return response.data.data;

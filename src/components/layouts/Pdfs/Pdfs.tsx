@@ -1,32 +1,18 @@
-import {
-  Download as DownloadIcon,
-  PictureAsPdf as PictureAsPdfIcon,
-  Refresh as RefreshIcon,
-  Search as SearchIcon,
-  Visibility as VisibilityIcon,
-} from "@mui/icons-material";
+import { Refresh as RefreshIcon } from "@mui/icons-material";
 import {
   Alert,
   Box,
-  Chip,
   CircularProgress,
-  FormControl,
   IconButton,
-  InputAdornment,
-  InputLabel,
-  List,
-  ListItem,
-  ListItemButton,
-  MenuItem,
-  Paper,
-  Select,
-  Skeleton,
-  TextField,
   Typography,
 } from "@mui/material";
 import React, { useMemo, useState } from "react";
 import { useDebounce } from "../../../Helpers/useDebounce";
 import { usePdfSearch } from "../../../hooks/usePdfs";
+import { EmptyState } from "./EmptyState";
+import { PdfList } from "./PdfList";
+import { PdfListSkeleton } from "./PdfListSkeleton";
+import { PdfSearchBar } from "./PdfSearchBar";
 
 interface PdfFile {
   name: string;
@@ -37,13 +23,16 @@ interface PdfFile {
   modifiedAt: string;
 }
 
-const Pdfs: React.FC = () => {
+export const Pdfs: React.FC = () => {
+  // State management
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState<"name" | "size" | "createdAt">("name");
   const [order, setOrder] = useState<"asc" | "desc">("asc");
 
+  // Debounced search
   const debouncedSearchTerm = useDebounce(searchTerm, 500);
 
+  // Query params
   const searchParams = useMemo(
     () => ({
       name: debouncedSearchTerm,
@@ -53,6 +42,7 @@ const Pdfs: React.FC = () => {
     [debouncedSearchTerm, sortBy, order],
   );
 
+  // React Query hook
   const {
     data: pdfFiles = [],
     isLoading,
@@ -62,6 +52,7 @@ const Pdfs: React.FC = () => {
     isFetching,
   } = usePdfSearch(searchParams);
 
+  // Handlers
   const handleViewPdf = (file: PdfFile) => {
     const url = `${import.meta.env.VITE_API_URL || "http://localhost:5001"}${
       file.path
@@ -69,7 +60,7 @@ const Pdfs: React.FC = () => {
     window.open(url, "_blank", "noopener,noreferrer");
   };
 
-  const handleDownloadPdf = async (file: PdfFile) => {
+  const handleDownloadPdf = (file: PdfFile) => {
     try {
       const url = `${import.meta.env.VITE_API_URL || "http://localhost:5001"}${
         file.path
@@ -87,29 +78,15 @@ const Pdfs: React.FC = () => {
     }
   };
 
-  const LoadingSkeleton = () => (
-    <Box>
-      {[...Array(3)].map((_, index) => (
-        <Paper key={index} sx={{ mb: 2, p: 2 }}>
-          <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <Skeleton variant="rectangular" width={40} height={40} />
-            <Box sx={{ flex: 1 }}>
-              <Skeleton variant="text" width="60%" height={24} />
-              <Skeleton variant="text" width="40%" height={20} />
-              <Skeleton variant="text" width="30%" height={20} />
-            </Box>
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <Skeleton variant="circular" width={40} height={40} />
-              <Skeleton variant="circular" width={40} height={40} />
-            </Box>
-          </Box>
-        </Paper>
-      ))}
-    </Box>
-  );
+  // Render conditions
+  const isEmpty = pdfFiles.length === 0;
+  const hasSearchTerm = searchTerm.length > 0;
+  const showEmptyState = !isLoading && isEmpty;
+  const showList = !isLoading && !isEmpty;
 
   return (
     <Box sx={{ p: 3 }}>
+      {/* Header */}
       <Box
         sx={{
           display: "flex",
@@ -127,64 +104,31 @@ const Pdfs: React.FC = () => {
           disabled={isFetching}
           title="Odśwież"
           color="primary"
+          aria-label="Odśwież listę plików PDF"
         >
           <RefreshIcon />
         </IconButton>
       </Box>
 
-      <Paper sx={{ p: 2, mb: 3 }} elevation={1}>
-        <Box sx={{ display: "flex", gap: 2, mb: 2, flexWrap: "wrap" }}>
-          <TextField
-            fullWidth
-            placeholder="Wyszukaj PDF po nazwie..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ minWidth: 200 }}
-          />
+      {/* Search Bar */}
+      <PdfSearchBar
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        sortBy={sortBy}
+        onSortByChange={setSortBy}
+        order={order}
+        onOrderChange={setOrder}
+      />
 
-          <FormControl sx={{ minWidth: 150 }}>
-            <InputLabel>Sortuj po</InputLabel>
-            <Select
-              value={sortBy}
-              label="Sortuj po"
-              onChange={(e) =>
-                setSortBy(e.target.value as "name" | "size" | "createdAt")
-              }
-            >
-              <MenuItem value="name">Nazwa</MenuItem>
-              <MenuItem value="size">Rozmiar</MenuItem>
-              <MenuItem value="createdAt">Data utworzenia</MenuItem>
-            </Select>
-          </FormControl>
+      {/* Results Count */}
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1, mb: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          Znaleziono: {pdfFiles.length} plików
+        </Typography>
+        {isFetching && <CircularProgress size={16} />}
+      </Box>
 
-          <FormControl sx={{ minWidth: 150 }}>
-            <InputLabel>Kolejność</InputLabel>
-            <Select
-              value={order}
-              label="Kolejność"
-              onChange={(e) => setOrder(e.target.value as "asc" | "desc")}
-            >
-              <MenuItem value="asc">Rosnąco</MenuItem>
-              <MenuItem value="desc">Malejąco</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <Typography variant="body2" color="text.secondary">
-            Znaleziono: {pdfFiles.length} plików
-          </Typography>
-          {isFetching && <CircularProgress size={16} />}
-        </Box>
-      </Paper>
-
+      {/* Error Alert */}
       {isError && (
         <Alert
           severity="error"
@@ -199,128 +143,20 @@ const Pdfs: React.FC = () => {
         </Alert>
       )}
 
-      {isLoading ? (
-        <LoadingSkeleton />
-      ) : pdfFiles.length === 0 ? (
-        <Paper sx={{ p: 4, textAlign: "center" }} elevation={1}>
-          <PictureAsPdfIcon sx={{ fontSize: 60, color: "grey.400", mb: 2 }} />
-          <Typography variant="h6" color="text.secondary" gutterBottom>
-            {searchTerm ? "Nie znaleziono plików PDF" : "Brak plików PDF"}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            {searchTerm
-              ? "Zmień kryteria wyszukiwania"
-              : "Dodaj nowe pliki lub skontaktuj się z administratorem"}
-          </Typography>
-        </Paper>
-      ) : (
-        <List disablePadding>
-          {pdfFiles.map((file, index) => (
-            <Paper key={`${file.name}-${index}`} sx={{ mb: 2 }} elevation={1}>
-              <ListItem
-                disablePadding
-                secondaryAction={
-                  <Box sx={{ display: "flex", gap: 1 }}>
-                    <IconButton
-                      edge="end"
-                      onClick={() => handleViewPdf(file)}
-                      title="Podgląd"
-                      color="primary"
-                    >
-                      <VisibilityIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      onClick={() => handleDownloadPdf(file)}
-                      title="Pobierz"
-                      color="secondary"
-                    >
-                      <DownloadIcon />
-                    </IconButton>
-                  </Box>
-                }
-              >
-                <ListItemButton
-                  onClick={() => handleViewPdf(file)}
-                  sx={{ pr: 10 }}
-                >
-                  <PictureAsPdfIcon
-                    sx={{
-                      mr: 2,
-                      color: "error.main",
-                      fontSize: 40,
-                      flexShrink: 0,
-                    }}
-                  />
+      {/* Content */}
+      {isLoading && <PdfListSkeleton count={3} />}
 
-                  <Box sx={{ flex: 1, minWidth: 0 }}>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 1,
-                        flexWrap: "wrap",
-                        mb: 0.5,
-                      }}
-                    >
-                      <Typography
-                        variant="h6"
-                        component="span"
-                        sx={{
-                          wordBreak: "break-word",
-                          color: "text.primary",
-                        }}
-                      >
-                        {file.name}
-                      </Typography>
-                      <Chip
-                        label={file.sizeFormatted}
-                        size="small"
-                        variant="outlined"
-                        color="primary"
-                      />
-                    </Box>
+      {showEmptyState && <EmptyState hasSearchTerm={hasSearchTerm} />}
 
-                    <Box>
-                      <Typography
-                        variant="body2"
-                        component="span"
-                        color="text.secondary"
-                        sx={{ display: "block", mb: 0.25 }}
-                      >
-                        Utworzono:{" "}
-                        {new Date(file.createdAt).toLocaleDateString("pl-PL", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        component="span"
-                        color="text.secondary"
-                        sx={{ display: "block" }}
-                      >
-                        Zmodyfikowano:{" "}
-                        {new Date(file.modifiedAt).toLocaleDateString("pl-PL", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                          hour: "2-digit",
-                          minute: "2-digit",
-                        })}
-                      </Typography>
-                    </Box>
-                  </Box>
-                </ListItemButton>
-              </ListItem>
-            </Paper>
-          ))}
-        </List>
+      {showList && (
+        <PdfList
+          files={pdfFiles}
+          onView={handleViewPdf}
+          onDownload={handleDownloadPdf}
+        />
       )}
 
+      {/* Loading indicator during refetch */}
       {isFetching && !isLoading && (
         <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
           <CircularProgress size={24} />
@@ -329,5 +165,3 @@ const Pdfs: React.FC = () => {
     </Box>
   );
 };
-
-export default Pdfs;

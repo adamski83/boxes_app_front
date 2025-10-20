@@ -11,7 +11,7 @@ import { Login } from "./components/layouts/Login/Login";
 import { Orders } from "./components/layouts/Orders/Orders";
 import { Register } from "./components/layouts/Register/Register";
 import { Live } from "./components/layouts/Live/Live";
-import Pdfs from "./components/layouts/Pdfs/Pdfs";
+import { Pdfs } from "./components/layouts/Pdfs/Pdfs";
 
 export const AppRoutes = () => {
   return (
