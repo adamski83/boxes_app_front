@@ -1,14 +1,14 @@
+import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import GridViewRoundedIcon from "@mui/icons-material/GridViewRounded";
+import InsightsIcon from "@mui/icons-material/Insights";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import ReceiptRoundedIcon from "@mui/icons-material/ReceiptRounded";
-import DonutSmallIcon from "@mui/icons-material/DonutSmall";
 import SettingsApplicationsRoundedIcon from "@mui/icons-material/SettingsApplicationsRounded";
-import InsightsIcon from "@mui/icons-material/Insights";
 import { useTranslation } from "react-i18next";
 import { Menu, MenuItem, Sidebar } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import React from "react";
 export const SidebarMenu = ({ onClose }: any) => {
   const role = localStorage.getItem("user_role");
 
@@ -48,6 +48,11 @@ export const SidebarMenu = ({ onClose }: any) => {
       to: "/lives",
       label: t("sidebar.menu.lives"),
       icon: <InsightsIcon onClick={onClose} />,
+    },
+    {
+      to: "/pdfs",
+      label: t("sidebar.menu.pdf"),
+      icon: <PictureAsPdfIcon onClick={onClose} />,
     },
     {
       to: "/login",
